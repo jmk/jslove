@@ -24,12 +24,18 @@
 // LOVE
 #include <filesystem/File.h>
 
+#ifdef JSLOVE
+#include <physfs.h>
+#else
+
 // PhysFS
 #ifdef LOVE_MACOSX // wacky Mac behavior means different #include syntax!
 #include <physfs/physfs.h>
 #else
 #include <physfs.h>
 #endif
+
+#endif // JSLOVE
 
 // STD
 #include <string>

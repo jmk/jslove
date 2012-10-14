@@ -10,22 +10,26 @@
 		96880208162A41E700309623 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96880207162A41E700309623 /* Cocoa.framework */; };
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
-		9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9688021A162A41E700309623 /* JSLAppDelegate.mm */; };
 		9688021E162A41E700309623 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9688021C162A41E700309623 /* MainMenu.xib */; };
-		9688022F162A58A800309623 /* v8_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688022D162A58A800309623 /* v8_timer.cpp */; };
 		96880231162A6EB600309623 /* boot.js in Resources */ = {isa = PBXBuildFile; fileRef = 96880230162A6EB600309623 /* boot.js */; };
 		9688060A162A8D5800309623 /* delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688042D162A8D5800309623 /* delay.cpp */; };
 		968806D1162A8D5800309623 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968805FA162A8D5800309623 /* Timer.cpp */; };
 		968806D9162A8E0200309623 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806D5162A8E0200309623 /* Exception.cpp */; };
 		968806DA162A8E0200309623 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806D7162A8E0200309623 /* Object.cpp */; };
 		968806DC162AAE3200309623 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968806DB162AAE3200309623 /* JavaScriptCore.framework */; };
-		968806DF162AAEAF00309623 /* v8impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 968806DD162AAEAE00309623 /* v8impl.mm */; };
 		968806E2162AAF3100309623 /* jscimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E0162AAF3100309623 /* jscimpl.cpp */; };
 		968806E5162B337E00309623 /* jsc_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E3162B337E00309623 /* jsc_timer.cpp */; };
 		9688074E162B6CF900309623 /* Love.icns in Resources */ = {isa = PBXBuildFile; fileRef = 96880713162B6CF900309623 /* Love.icns */; };
 		9688074F162B6CF900309623 /* LoveDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 96880714162B6CF900309623 /* LoveDocument.icns */; };
 		96880750162B6CF900309623 /* love-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96880715162B6CF900309623 /* love-Info.plist */; };
 		96880754162B6CF900309623 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688071E162B6CF900309623 /* SDLMain.m */; };
+		9688076B162B6EDB00309623 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9688076A162B6EDB00309623 /* main.mm */; };
+		96880783162B738300309623 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96880772162B738300309623 /* File.cpp */; };
+		96880784162B738300309623 /* FileData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96880774162B738300309623 /* FileData.cpp */; };
+		96880785162B738300309623 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96880777162B738300309623 /* File.cpp */; };
+		96880786162B738300309623 /* Filesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96880779162B738300309623 /* Filesystem.cpp */; };
+		9688078C162B75D800309623 /* b64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688078A162B75D800309623 /* b64.cpp */; };
+		9688078F162B765800309623 /* jsc_filesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688078D162B765800309623 /* jsc_filesystem.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,11 +42,7 @@
 		96880211162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		96880215162A41E700309623 /* jslove-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jslove-Prefix.pch"; sourceTree = "<group>"; };
 		96880217162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		96880219162A41E700309623 /* JSLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSLAppDelegate.h; sourceTree = "<group>"; };
-		9688021A162A41E700309623 /* JSLAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSLAppDelegate.mm; sourceTree = "<group>"; };
 		9688021D162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		9688022D162A58A800309623 /* v8_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = v8_timer.cpp; sourceTree = "<group>"; };
-		9688022E162A58A800309623 /* v8_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v8_timer.h; sourceTree = "<group>"; };
 		96880230162A6EB600309623 /* boot.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = boot.js; sourceTree = "<group>"; };
 		9688042B162A8D5800309623 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		9688042D162A8D5800309623 /* delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
@@ -56,8 +56,6 @@
 		968806D7162A8E0200309623 /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
 		968806D8162A8E0200309623 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		968806DB162AAE3200309623 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		968806DD162AAEAE00309623 /* v8impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = v8impl.mm; sourceTree = "<group>"; };
-		968806DE162AAEAE00309623 /* v8impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v8impl.h; sourceTree = "<group>"; };
 		968806E0162AAF3100309623 /* jscimpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jscimpl.cpp; sourceTree = "<group>"; };
 		968806E1162AAF3100309623 /* jscimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jscimpl.h; sourceTree = "<group>"; };
 		968806E3162B337E00309623 /* jsc_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsc_timer.cpp; sourceTree = "<group>"; };
@@ -67,6 +65,22 @@
 		96880715162B6CF900309623 /* love-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "love-Info.plist"; sourceTree = "<group>"; };
 		9688071D162B6CF900309623 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		9688071E162B6CF900309623 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
+		9688076A162B6EDB00309623 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		9688076C162B731500309623 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		9688076D162B731500309623 /* int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = int.h; sourceTree = "<group>"; };
+		9688076E162B731500309623 /* StringMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringMap.h; sourceTree = "<group>"; };
+		96880772162B738300309623 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		96880773162B738300309623 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		96880774162B738300309623 /* FileData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileData.cpp; sourceTree = "<group>"; };
+		96880775162B738300309623 /* FileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileData.h; sourceTree = "<group>"; };
+		96880777162B738300309623 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		96880778162B738300309623 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		96880779162B738300309623 /* Filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Filesystem.cpp; sourceTree = "<group>"; };
+		9688077A162B738300309623 /* Filesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filesystem.h; sourceTree = "<group>"; };
+		9688078A162B75D800309623 /* b64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b64.cpp; sourceTree = "<group>"; };
+		9688078B162B75D800309623 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
+		9688078D162B765800309623 /* jsc_filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsc_filesystem.cpp; sourceTree = "<group>"; };
+		9688078E162B765800309623 /* jsc_filesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsc_filesystem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,12 +137,9 @@
 		9688020D162A41E700309623 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				96880219162A41E700309623 /* JSLAppDelegate.h */,
-				9688021A162A41E700309623 /* JSLAppDelegate.mm */,
+				9688076A162B6EDB00309623 /* main.mm */,
 				968806E0162AAF3100309623 /* jscimpl.cpp */,
 				968806E1162AAF3100309623 /* jscimpl.h */,
-				968806DD162AAEAE00309623 /* v8impl.mm */,
-				968806DE162AAEAE00309623 /* v8impl.h */,
 				9688022C162A583400309623 /* Module Wrappers */,
 				96880232162A6ED200309623 /* Scripts */,
 				9688020E162A41E700309623 /* Supporting Files */,
@@ -154,8 +165,8 @@
 			children = (
 				968806E3162B337E00309623 /* jsc_timer.cpp */,
 				968806E4162B337E00309623 /* jsc_timer.h */,
-				9688022D162A58A800309623 /* v8_timer.cpp */,
-				9688022E162A58A800309623 /* v8_timer.h */,
+				9688078D162B765800309623 /* jsc_filesystem.cpp */,
+				9688078E162B765800309623 /* jsc_filesystem.h */,
 			);
 			name = "Module Wrappers";
 			path = modules;
@@ -183,14 +194,19 @@
 		96880428162A8D5800309623 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				9688078A162B75D800309623 /* b64.cpp */,
+				9688078B162B75D800309623 /* b64.h */,
 				9688042B162A8D5800309623 /* config.h */,
+				9688076C162B731500309623 /* Data.h */,
 				9688042D162A8D5800309623 /* delay.cpp */,
 				9688042E162A8D5800309623 /* delay.h */,
 				968806D5162A8E0200309623 /* Exception.cpp */,
 				968806D6162A8E0200309623 /* Exception.h */,
+				9688076D162B731500309623 /* int.h */,
 				96880438162A8D5800309623 /* Module.h */,
 				968806D7162A8E0200309623 /* Object.cpp */,
 				968806D8162A8E0200309623 /* Object.h */,
+				9688076E162B731500309623 /* StringMap.h */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -198,6 +214,7 @@
 		968804E0162A8D5800309623 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				9688076F162B738300309623 /* filesystem */,
 				968805F8162A8D5800309623 /* timer */,
 			);
 			path = modules;
@@ -248,6 +265,29 @@
 				96880714162B6CF900309623 /* LoveDocument.icns */,
 			);
 			path = icons;
+			sourceTree = "<group>";
+		};
+		9688076F162B738300309623 /* filesystem */ = {
+			isa = PBXGroup;
+			children = (
+				96880772162B738300309623 /* File.cpp */,
+				96880773162B738300309623 /* File.h */,
+				96880774162B738300309623 /* FileData.cpp */,
+				96880775162B738300309623 /* FileData.h */,
+				96880776162B738300309623 /* physfs */,
+			);
+			path = filesystem;
+			sourceTree = "<group>";
+		};
+		96880776162B738300309623 /* physfs */ = {
+			isa = PBXGroup;
+			children = (
+				96880777162B738300309623 /* File.cpp */,
+				96880778162B738300309623 /* File.h */,
+				96880779162B738300309623 /* Filesystem.cpp */,
+				9688077A162B738300309623 /* Filesystem.h */,
+			);
+			path = physfs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,16 +359,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */,
-				9688022F162A58A800309623 /* v8_timer.cpp in Sources */,
 				9688060A162A8D5800309623 /* delay.cpp in Sources */,
 				968806D1162A8D5800309623 /* Timer.cpp in Sources */,
 				968806D9162A8E0200309623 /* Exception.cpp in Sources */,
 				968806DA162A8E0200309623 /* Object.cpp in Sources */,
-				968806DF162AAEAF00309623 /* v8impl.mm in Sources */,
 				968806E2162AAF3100309623 /* jscimpl.cpp in Sources */,
 				968806E5162B337E00309623 /* jsc_timer.cpp in Sources */,
 				96880754162B6CF900309623 /* SDLMain.m in Sources */,
+				9688076B162B6EDB00309623 /* main.mm in Sources */,
+				96880783162B738300309623 /* File.cpp in Sources */,
+				96880784162B738300309623 /* FileData.cpp in Sources */,
+				96880785162B738300309623 /* File.cpp in Sources */,
+				96880786162B738300309623 /* Filesystem.cpp in Sources */,
+				9688078C162B75D800309623 /* b64.cpp in Sources */,
+				9688078F162B765800309623 /* jsc_filesystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +483,7 @@
 				OTHER_CFLAGS = "-DJSLOVE";
 				OTHER_LDFLAGS = (
 					"-lSDL",
-					"-lv8",
+					"-lphysfs",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -467,7 +511,7 @@
 				OTHER_CFLAGS = "-DJSLOVE";
 				OTHER_LDFLAGS = (
 					"-lSDL",
-					"-lv8",
+					"-lphysfs",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

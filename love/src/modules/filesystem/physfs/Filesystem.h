@@ -230,6 +230,9 @@ namespace physfs
 		**/
 		bool close(File * file);
 
+#ifdef JSLOVE
+
+#else
 		/**
 		* Reads count bytes from an open file.
 		* The first parameter is either a File or
@@ -286,7 +289,7 @@ namespace physfs
 		* and File:lines.
 		**/
 		static int lines_i(lua_State * L);
-
+#endif // JSLOVE
 	}; // Filesystem
 
 } // physfs

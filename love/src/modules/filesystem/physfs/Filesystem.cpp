@@ -181,7 +181,8 @@ namespace physfs
 
 	FileData * Filesystem::newFileData(const char * b64, const char * filename)
 	{
-		int size = strlen(b64);
+        // jmk: int conversion hack
+		int size = (int) strlen(b64);
 		int outsize = 0;
 		char * dst = b64_decode(b64, size, outsize);
 		FileData * fd = new FileData(outsize, std::string(filename));
@@ -299,6 +300,9 @@ namespace physfs
 		return true;
 	}
 
+#ifdef JSLOVE
+
+#else
 	int Filesystem::read(lua_State * L)
 	{
 		// The file to read from. The file must either be created
@@ -594,6 +598,7 @@ namespace physfs
 		lua_pushnumber(L, static_cast<lua_Number>(time));
 		return 1;
 	}
+#endif // JSLOVE
 
 } // physfs
 } // filesystem
