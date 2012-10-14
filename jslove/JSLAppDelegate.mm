@@ -1,12 +1,6 @@
-//
-//  JSLAppDelegate.m
-//  jslove
-//
-//  Created by Jason Kim on 10/13/12.
-//  Copyright (c) 2012 Duty Cycle. All rights reserved.
-//
-
 #import "JSLAppDelegate.h"
+
+#import <v8.h>
 
 @implementation JSLAppDelegate
 

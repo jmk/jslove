@@ -11,8 +11,9 @@
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
 		96880214162A41E700309623 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96880213162A41E700309623 /* main.m */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
-		9688021B162A41E700309623 /* JSLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688021A162A41E700309623 /* JSLAppDelegate.m */; };
+		9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9688021A162A41E700309623 /* JSLAppDelegate.mm */; };
 		9688021E162A41E700309623 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9688021C162A41E700309623 /* MainMenu.xib */; };
+		9688022B162A42A400309623 /* libv8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9688022A162A42A400309623 /* libv8.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +28,9 @@
 		96880215162A41E700309623 /* jslove-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jslove-Prefix.pch"; sourceTree = "<group>"; };
 		96880217162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		96880219162A41E700309623 /* JSLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSLAppDelegate.h; sourceTree = "<group>"; };
-		9688021A162A41E700309623 /* JSLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSLAppDelegate.m; sourceTree = "<group>"; };
+		9688021A162A41E700309623 /* JSLAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSLAppDelegate.mm; sourceTree = "<group>"; };
 		9688021D162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		9688022A162A42A400309623 /* libv8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libv8.dylib; path = ../../../../../../usr/local/Cellar/v8/3.9.24/lib/libv8.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +39,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96880208162A41E700309623 /* Cocoa.framework in Frameworks */,
+				9688022B162A42A400309623 /* libv8.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				9688020D162A41E700309623 /* jslove */,
+				96880228162A428F00309623 /* Libraries */,
 				96880206162A41E700309623 /* Frameworks */,
 				96880204162A41E700309623 /* Products */,
 			);
@@ -83,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				96880219162A41E700309623 /* JSLAppDelegate.h */,
-				9688021A162A41E700309623 /* JSLAppDelegate.m */,
+				9688021A162A41E700309623 /* JSLAppDelegate.mm */,
 				9688021C162A41E700309623 /* MainMenu.xib */,
 				9688020E162A41E700309623 /* Supporting Files */,
 			);
@@ -100,6 +104,15 @@
 				96880216162A41E700309623 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96880228162A428F00309623 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				9688022A162A42A400309623 /* libv8.dylib */,
+			);
+			name = Libraries;
+			path = libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,7 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96880214162A41E700309623 /* main.m in Sources */,
-				9688021B162A41E700309623 /* JSLAppDelegate.m in Sources */,
+				9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +274,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "jslove/jslove-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/v8/include";
 				INFOPLIST_FILE = "jslove/jslove-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/v8/3.9.24/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -273,7 +291,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "jslove/jslove-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/v8/include";
 				INFOPLIST_FILE = "jslove/jslove-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/v8/3.9.24/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -298,6 +321,7 @@
 				96880223162A41E700309623 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
