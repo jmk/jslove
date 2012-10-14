@@ -22,7 +22,7 @@
 		9688020A162A41E700309623 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		9688020B162A41E700309623 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9688020C162A41E700309623 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9688020F162A41E700309623 /* jslove-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "jslove-Info.plist"; sourceTree = "<group>"; };
+		9688020F162A41E700309623 /* jslove-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "jslove-Info.plist"; path = "../rsrc/jslove-Info.plist"; sourceTree = "<group>"; };
 		96880211162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		96880213162A41E700309623 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		96880215162A41E700309623 /* jslove-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jslove-Prefix.pch"; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 		968801F8162A41E700309623 = {
 			isa = PBXGroup;
 			children = (
-				9688020D162A41E700309623 /* jslove */,
+				9688020D162A41E700309623 /* Source */,
 				96880228162A428F00309623 /* Libraries */,
 				96880206162A41E700309623 /* Frameworks */,
 				96880204162A41E700309623 /* Products */,
@@ -83,7 +83,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		9688020D162A41E700309623 /* jslove */ = {
+		9688020D162A41E700309623 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				96880219162A41E700309623 /* JSLAppDelegate.h */,
@@ -91,7 +91,8 @@
 				9688021C162A41E700309623 /* MainMenu.xib */,
 				9688020E162A41E700309623 /* Supporting Files */,
 			);
-			path = jslove;
+			name = Source;
+			path = src;
 			sourceTree = "<group>";
 		};
 		9688020E162A41E700309623 /* Supporting Files */ = {
@@ -273,9 +274,9 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "jslove/jslove-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/jslove-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/v8/include";
-				INFOPLIST_FILE = "jslove/jslove-Info.plist";
+				INFOPLIST_FILE = "rsrc/jslove-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/v8/3.9.24/lib,
@@ -290,9 +291,9 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "jslove/jslove-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/jslove-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/v8/include";
-				INFOPLIST_FILE = "jslove/jslove-Info.plist";
+				INFOPLIST_FILE = "rsrc/jslove-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/v8/3.9.24/lib,
