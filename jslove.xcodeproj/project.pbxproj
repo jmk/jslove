@@ -195,6 +195,7 @@
 				96880211162A41E700309623 /* en */,
 			);
 			name = InfoPlist.strings;
+			path = ../rsrc;
 			sourceTree = "<group>";
 		};
 		96880216162A41E700309623 /* Credits.rtf */ = {
@@ -203,6 +204,7 @@
 				96880217162A41E700309623 /* en */,
 			);
 			name = Credits.rtf;
+			path = ../rsrc;
 			sourceTree = "<group>";
 		};
 		9688021C162A41E700309623 /* MainMenu.xib */ = {
@@ -211,6 +213,7 @@
 				9688021D162A41E700309623 /* en */,
 			);
 			name = MainMenu.xib;
+			path = ../rsrc;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
