@@ -57,8 +57,9 @@ WRAP_MODULE(timer)
         printf("ERROR: already initialized\n");
     }
 
+    // XXX: Not strictly necessary without a private data object, but may be
+    //      useful later.
     JSClassDefinition def = kJSClassDefinitionEmpty;
-//    def.getProperty = myClassGetProperty;
     JSClassRef cls = JSClassCreate(&def);
 
     JSObjectRef obj = JSObjectMake(ctx, cls, NULL);
