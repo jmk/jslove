@@ -18,8 +18,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 **/
 
-// jmk: not needed yet
-#if 0
+// jmk: This file is not needed.
+#ifndef JSLOVE
 
 #ifndef LOVE_RUNTIME_H
 #define LOVE_RUNTIME_H
@@ -385,4 +385,4 @@ namespace love
 
 #endif // LOVE_RUNTIME_H
 
-#endif
+#endif // JSLOVE

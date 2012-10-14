@@ -18,8 +18,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 **/
 
-// jmk: not needed yet
-#if 0
+// jmk: This file is not needed.
+#ifndef JSLOVE
 
 #include "runtime.h"
 
@@ -482,4 +482,4 @@ namespace love
 	}
 } // love
 
-#endif
+#endif // JSLOVE
