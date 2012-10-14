@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		96880208162A41E700309623 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96880207162A41E700309623 /* Cocoa.framework */; };
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
-		96880214162A41E700309623 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96880213162A41E700309623 /* main.m */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
 		9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9688021A162A41E700309623 /* JSLAppDelegate.mm */; };
 		9688021E162A41E700309623 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9688021C162A41E700309623 /* MainMenu.xib */; };
@@ -23,6 +22,10 @@
 		968806DF162AAEAF00309623 /* v8impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 968806DD162AAEAE00309623 /* v8impl.mm */; };
 		968806E2162AAF3100309623 /* jscimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E0162AAF3100309623 /* jscimpl.cpp */; };
 		968806E5162B337E00309623 /* jsc_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E3162B337E00309623 /* jsc_timer.cpp */; };
+		9688074E162B6CF900309623 /* Love.icns in Resources */ = {isa = PBXBuildFile; fileRef = 96880713162B6CF900309623 /* Love.icns */; };
+		9688074F162B6CF900309623 /* LoveDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 96880714162B6CF900309623 /* LoveDocument.icns */; };
+		96880750162B6CF900309623 /* love-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96880715162B6CF900309623 /* love-Info.plist */; };
+		96880754162B6CF900309623 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688071E162B6CF900309623 /* SDLMain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +36,6 @@
 		9688020C162A41E700309623 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9688020F162A41E700309623 /* jslove-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "jslove-Info.plist"; path = "../rsrc/jslove-Info.plist"; sourceTree = "<group>"; };
 		96880211162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		96880213162A41E700309623 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		96880215162A41E700309623 /* jslove-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jslove-Prefix.pch"; sourceTree = "<group>"; };
 		96880217162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		96880219162A41E700309623 /* JSLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSLAppDelegate.h; sourceTree = "<group>"; };
@@ -60,6 +62,11 @@
 		968806E1162AAF3100309623 /* jscimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jscimpl.h; sourceTree = "<group>"; };
 		968806E3162B337E00309623 /* jsc_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsc_timer.cpp; sourceTree = "<group>"; };
 		968806E4162B337E00309623 /* jsc_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsc_timer.h; sourceTree = "<group>"; };
+		96880713162B6CF900309623 /* Love.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Love.icns; sourceTree = "<group>"; };
+		96880714162B6CF900309623 /* LoveDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LoveDocument.icns; sourceTree = "<group>"; };
+		96880715162B6CF900309623 /* love-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "love-Info.plist"; sourceTree = "<group>"; };
+		9688071D162B6CF900309623 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
+		9688071E162B6CF900309623 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +143,6 @@
 				9688021C162A41E700309623 /* MainMenu.xib */,
 				9688020F162A41E700309623 /* jslove-Info.plist */,
 				96880210162A41E700309623 /* InfoPlist.strings */,
-				96880213162A41E700309623 /* main.m */,
 				96880215162A41E700309623 /* jslove-Prefix.pch */,
 				96880216162A41E700309623 /* Credits.rtf */,
 			);
@@ -168,6 +174,7 @@
 			children = (
 				96880428162A8D5800309623 /* common */,
 				968804E0162A8D5800309623 /* modules */,
+				968806E6162B6CF900309623 /* platform */,
 			);
 			name = Love;
 			path = love/src;
@@ -212,6 +219,35 @@
 				968805FB162A8D5800309623 /* Timer.h */,
 			);
 			path = sdl;
+			sourceTree = "<group>";
+		};
+		968806E6162B6CF900309623 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				968806E7162B6CF900309623 /* macosx */,
+			);
+			name = platform;
+			path = love/platform;
+			sourceTree = SOURCE_ROOT;
+		};
+		968806E7162B6CF900309623 /* macosx */ = {
+			isa = PBXGroup;
+			children = (
+				96880712162B6CF900309623 /* icons */,
+				96880715162B6CF900309623 /* love-Info.plist */,
+				9688071D162B6CF900309623 /* SDLMain.h */,
+				9688071E162B6CF900309623 /* SDLMain.m */,
+			);
+			path = macosx;
+			sourceTree = "<group>";
+		};
+		96880712162B6CF900309623 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				96880713162B6CF900309623 /* Love.icns */,
+				96880714162B6CF900309623 /* LoveDocument.icns */,
+			);
+			path = icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +306,9 @@
 				96880212162A41E700309623 /* InfoPlist.strings in Resources */,
 				96880218162A41E700309623 /* Credits.rtf in Resources */,
 				9688021E162A41E700309623 /* MainMenu.xib in Resources */,
+				9688074E162B6CF900309623 /* Love.icns in Resources */,
+				9688074F162B6CF900309623 /* LoveDocument.icns in Resources */,
+				96880750162B6CF900309623 /* love-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +319,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96880214162A41E700309623 /* main.m in Sources */,
 				9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */,
 				9688022F162A58A800309623 /* v8_timer.cpp in Sources */,
 				9688060A162A8D5800309623 /* delay.cpp in Sources */,
@@ -290,6 +328,7 @@
 				968806DF162AAEAF00309623 /* v8impl.mm in Sources */,
 				968806E2162AAF3100309623 /* jscimpl.cpp in Sources */,
 				968806E5162B337E00309623 /* jsc_timer.cpp in Sources */,
+				96880754162B6CF900309623 /* SDLMain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +421,7 @@
 		96880222162A41E700309623 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/jslove-Prefix.pch";
@@ -409,6 +449,7 @@
 		96880223162A41E700309623 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/jslove-Prefix.pch";
