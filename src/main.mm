@@ -1,11 +1,7 @@
-#import "JSLAppDelegate.h"
-
 #import "jscimpl.h"
 #import "v8impl.h"
 
 #include <SDL.h>
-
-@implementation JSLAppDelegate
 
 int main(int argc, char** argv)
 {
@@ -17,12 +13,12 @@ int main(int argc, char** argv)
                                                encoding:NSUTF8StringEncoding
                                                   error:nil];
     }
-    
+
     if (not bootScript) {
         NSLog(@"Couldn't load boot.js");
         return 1;
     }
-    
+
     std::string str([bootScript UTF8String]);
 
     JSCMain(str);
@@ -30,5 +26,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
-@end
