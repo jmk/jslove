@@ -5,6 +5,8 @@
 
 using namespace v8;
 
+extern Handle<Value> init_timer(const Arguments& args);
+
 #if 0
 Handle<Value> Require(const Arguments& args) {
     for (int i = 0; i < args.Length(); i++) {
@@ -64,6 +66,8 @@ CreateShellContext() {
     Handle<ObjectTemplate> global = ObjectTemplate::New();
 
     global->Set(String::New("print"), FunctionTemplate::New(Print));
+
+    global->Set(String::New("__love_init_timer"), FunctionTemplate::New(init_timer));
 
     return Context::New(NULL, global);
 }

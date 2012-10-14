@@ -296,7 +296,9 @@ namespace thread
 
 	unsigned ThreadModule::getThreadCount() const
 	{
-		return threads.size();
+        // jmk: to appease compiler
+        return (int) threads.size();
+//		return threads.size();
 	}
 
 	void ThreadModule::unregister(const std::string & name)

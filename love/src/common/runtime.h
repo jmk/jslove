@@ -18,6 +18,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 **/
 
+// jmk: not needed yet
+#if 0
+
 #ifndef LOVE_RUNTIME_H
 #define LOVE_RUNTIME_H
 
@@ -381,3 +384,5 @@ namespace love
 } // love
 
 #endif // LOVE_RUNTIME_H
+
+#endif

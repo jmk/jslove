@@ -18,6 +18,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 **/
 
+// jmk: not needed yet
+#if 0
+
 #include "runtime.h"
 
 // LOVE
@@ -478,3 +481,5 @@ namespace love
 		return t;
 	}
 } // love
+
+#endif

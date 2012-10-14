@@ -1,4 +1,3 @@
-
 var love = {};
 
 love.boot = function() {
@@ -20,6 +19,9 @@ love.init = function() {
     //   - version check
 
     print("init()");
+
+    // XXX: testing only
+    love.timer = __love_init_timer();
 }
 
 love.run = function() {
@@ -84,7 +86,6 @@ love.run = function() {
 
         // XXX for debugging only!
         print("dt:", dt);
-        break;
     }
 }
 
