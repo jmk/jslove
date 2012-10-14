@@ -1,22 +1,22 @@
-#include "module_timer.h"
+#include "v8_timer.h"
 
 #include <timer/sdl/timer.h>
 
 using namespace v8;
+using love::timer::sdl::Timer;
 
-static love::timer::sdl::Timer* _t = NULL;
+static Timer* _t = NULL;
 
 class WrapModule
 {
 protected:
-    static Handle<Value> _Double(const Arguments& args, double x) {
+    static Handle<Value> _Call(const Arguments& args, double x) {
         if (args.Length() == 0) {
             return Number::New(x);
         } else {
             return Undefined();
         }
     }
-
 };
 
 class WrapTimer : WrapModule
@@ -38,27 +38,40 @@ public:
     }
 
     static Handle<Value> getDelta(const Arguments& args) {
-        return _Double(args, _t->getDelta());
+        return _Call(args, _t->getDelta());
     }
 
     static Handle<Value> getFPS(const Arguments& args) {
-        return _Double(args, _t->getFPS());
+        return _Call(args, _t->getFPS());
     }
 
     static Handle<Value> getTime(const Arguments& args) {
-        return _Double(args, _t->getTime());
+        return _Call(args, _t->getTime());
     }
 
     static Handle<Value> getMicroTime(const Arguments& args) {
-        return _Double(args, _t->getMicroTime());
+        return _Call(args, _t->getMicroTime());
     }
 };
 
 Handle<Value> init_timer(const Arguments& args)
 {
+#if 0
+    typedef love::timer::sdl::Timer Timer;
+    Wrap<Timer>("Timer")
+        .construct<int>()
+        .construct<int, int>()
+        .function("getY", &Point::getY)
+        .function("setY", &Point::setY)
+        .function("printPoint", &Point::printPoint)
+        .function("printPointConstRef", &Point::printPointConstRef)
+        .property("x", &Point::getX, &Point::setX)
+        ;
+#endif
+
     printf("INIT TIMER!\n");
 
-    _t = new love::timer::sdl::Timer();
+    _t = new Timer();
 
     Handle<FunctionTemplate> timerTemplate = FunctionTemplate::New();
     Handle<Template> proto = timerTemplate->PrototypeTemplate();

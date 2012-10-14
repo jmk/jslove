@@ -13,12 +13,16 @@
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
 		9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9688021A162A41E700309623 /* JSLAppDelegate.mm */; };
 		9688021E162A41E700309623 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9688021C162A41E700309623 /* MainMenu.xib */; };
-		9688022F162A58A800309623 /* module_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688022D162A58A800309623 /* module_timer.cpp */; };
+		9688022F162A58A800309623 /* v8_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688022D162A58A800309623 /* v8_timer.cpp */; };
 		96880231162A6EB600309623 /* boot.js in Resources */ = {isa = PBXBuildFile; fileRef = 96880230162A6EB600309623 /* boot.js */; };
 		9688060A162A8D5800309623 /* delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9688042D162A8D5800309623 /* delay.cpp */; };
 		968806D1162A8D5800309623 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968805FA162A8D5800309623 /* Timer.cpp */; };
 		968806D9162A8E0200309623 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806D5162A8E0200309623 /* Exception.cpp */; };
 		968806DA162A8E0200309623 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806D7162A8E0200309623 /* Object.cpp */; };
+		968806DC162AAE3200309623 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968806DB162AAE3200309623 /* JavaScriptCore.framework */; };
+		968806DF162AAEAF00309623 /* v8impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 968806DD162AAEAE00309623 /* v8impl.mm */; };
+		968806E2162AAF3100309623 /* jscimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E0162AAF3100309623 /* jscimpl.cpp */; };
+		968806E5162B337E00309623 /* jsc_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 968806E3162B337E00309623 /* jsc_timer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,8 +39,8 @@
 		96880219162A41E700309623 /* JSLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSLAppDelegate.h; sourceTree = "<group>"; };
 		9688021A162A41E700309623 /* JSLAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSLAppDelegate.mm; sourceTree = "<group>"; };
 		9688021D162A41E700309623 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		9688022D162A58A800309623 /* module_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = module_timer.cpp; sourceTree = "<group>"; };
-		9688022E162A58A800309623 /* module_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = module_timer.h; sourceTree = "<group>"; };
+		9688022D162A58A800309623 /* v8_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = v8_timer.cpp; sourceTree = "<group>"; };
+		9688022E162A58A800309623 /* v8_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v8_timer.h; sourceTree = "<group>"; };
 		96880230162A6EB600309623 /* boot.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = boot.js; sourceTree = "<group>"; };
 		9688042B162A8D5800309623 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		9688042D162A8D5800309623 /* delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
@@ -49,6 +53,13 @@
 		968806D6162A8E0200309623 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		968806D7162A8E0200309623 /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
 		968806D8162A8E0200309623 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
+		968806DB162AAE3200309623 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		968806DD162AAEAE00309623 /* v8impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = v8impl.mm; sourceTree = "<group>"; };
+		968806DE162AAEAE00309623 /* v8impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v8impl.h; sourceTree = "<group>"; };
+		968806E0162AAF3100309623 /* jscimpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jscimpl.cpp; sourceTree = "<group>"; };
+		968806E1162AAF3100309623 /* jscimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jscimpl.h; sourceTree = "<group>"; };
+		968806E3162B337E00309623 /* jsc_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsc_timer.cpp; sourceTree = "<group>"; };
+		968806E4162B337E00309623 /* jsc_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsc_timer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				968806DC162AAE3200309623 /* JavaScriptCore.framework in Frameworks */,
 				96880208162A41E700309623 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				96880207162A41E700309623 /* Cocoa.framework */,
+				968806DB162AAE3200309623 /* JavaScriptCore.framework */,
 				96880209162A41E700309623 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -105,6 +118,10 @@
 			children = (
 				96880219162A41E700309623 /* JSLAppDelegate.h */,
 				9688021A162A41E700309623 /* JSLAppDelegate.mm */,
+				968806E0162AAF3100309623 /* jscimpl.cpp */,
+				968806E1162AAF3100309623 /* jscimpl.h */,
+				968806DD162AAEAE00309623 /* v8impl.mm */,
+				968806DE162AAEAE00309623 /* v8impl.h */,
 				9688022C162A583400309623 /* Module Wrappers */,
 				96880232162A6ED200309623 /* Scripts */,
 				9688020E162A41E700309623 /* Supporting Files */,
@@ -129,8 +146,10 @@
 		9688022C162A583400309623 /* Module Wrappers */ = {
 			isa = PBXGroup;
 			children = (
-				9688022D162A58A800309623 /* module_timer.cpp */,
-				9688022E162A58A800309623 /* module_timer.h */,
+				968806E3162B337E00309623 /* jsc_timer.cpp */,
+				968806E4162B337E00309623 /* jsc_timer.h */,
+				9688022D162A58A800309623 /* v8_timer.cpp */,
+				9688022E162A58A800309623 /* v8_timer.h */,
 			);
 			name = "Module Wrappers";
 			path = modules;
@@ -263,11 +282,14 @@
 			files = (
 				96880214162A41E700309623 /* main.m in Sources */,
 				9688021B162A41E700309623 /* JSLAppDelegate.mm in Sources */,
-				9688022F162A58A800309623 /* module_timer.cpp in Sources */,
+				9688022F162A58A800309623 /* v8_timer.cpp in Sources */,
 				9688060A162A8D5800309623 /* delay.cpp in Sources */,
 				968806D1162A8D5800309623 /* Timer.cpp in Sources */,
 				968806D9162A8E0200309623 /* Exception.cpp in Sources */,
 				968806DA162A8E0200309623 /* Object.cpp in Sources */,
+				968806DF162AAEAF00309623 /* v8impl.mm in Sources */,
+				968806E2162AAF3100309623 /* jscimpl.cpp in Sources */,
+				968806E5162B337E00309623 /* jsc_timer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
