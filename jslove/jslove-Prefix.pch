@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'jslove' target in the 'jslove' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
