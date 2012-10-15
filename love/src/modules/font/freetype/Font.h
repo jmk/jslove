@@ -26,7 +26,13 @@
 
 // FreeType2
 #ifdef LOVE_MACOSX
+
+#ifdef JSLOVE
+#include <ft2build.h>
+#else
 #include <freetype/ft2build.h>
+#endif
+
 #else
 #include <ft2build.h>
 #endif

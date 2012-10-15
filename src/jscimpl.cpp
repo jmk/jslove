@@ -1,16 +1,28 @@
 #include "jscimpl.h"
 
+#include "WrapUtils.h"
+
 #include <JavaScriptCore/JavaScript.h>
 
 #include <cstdio>
 
-// XXX HACK
-extern JSValueRef __init_timer(JSContextRef ctx,
-                               JSObjectRef function,
-                               JSObjectRef thisObject,
-                               size_t argCount,
-                               const JSValueRef args[],
-                               JSValueRef *exception);
+#define DECLARE_MODULE(name)               \
+    extern JSValueRef __wrap_ ## name (    \
+        JSContextRef ctx);                 \
+                                           \
+    static JSValueRef __init_ ## name (    \
+        JSContextRef ctx,                  \
+        JSObjectRef function,              \
+        JSObjectRef self,                  \
+        size_t argCount,                   \
+        const JSValueRef args[],           \
+        JSValueRef *exception)             \
+    {                                      \
+        return __wrap_ ## name (ctx);      \
+    }
+
+DECLARE_MODULE(timer);
+DECLARE_MODULE(graphics);
 
 JSValueRef Print(JSContextRef ctx,
                  JSObjectRef function,
@@ -117,9 +129,18 @@ void InitContext(JSContextRef ctx)
     }
 
     {
-        JSStringRef name = JSStringCreateWithUTF8CString("__love_init_timer");
+        JSStringRef name = JSStringCreateWithUTF8CString("__init_timer");
         JSObjectRef func =
             JSObjectMakeFunctionWithCallback(ctx, name, __init_timer);
+        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
+                            kJSPropertyAttributeNone, /*exception*/ NULL);
+        JSStringRelease(name);
+    }
+
+    {
+        JSStringRef name = JSStringCreateWithUTF8CString("__init_graphics");
+        JSObjectRef func =
+            JSObjectMakeFunctionWithCallback(ctx, name, __init_graphics);
         JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
                             kJSPropertyAttributeNone, /*exception*/ NULL);
         JSStringRelease(name);
@@ -134,7 +155,6 @@ int JSCMain(const std::string& str)
 
     InitContext(ctx);
 
-//    JSStringRef script = JSStringCreateWithUTF8CString("print(Math.random()) ; print(123, \"hey\", 42.1); print(\"foo\");");
     JSStringRef script = JSStringCreateWithUTF8CString(str.c_str());
     JSStringRef name = JSStringCreateWithUTF8CString("boot.lua");
     JSValueRef exception = NULL;

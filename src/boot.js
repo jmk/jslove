@@ -77,27 +77,34 @@ love.init = function() {
 
     // Load requested modules.
     // XXX: temp
-    love.timer = __love_init_timer();
+    love.graphics = __init_graphics();
+    love.timer    = __init_timer();
 
     if (love.event) {
         love.createhandlers();
     }
 
-//	-- Setup screen here.
-//	if c.screen and c.modules.graphics then
-//		if love.graphics.checkMode(c.screen.width, c.screen.height, c.screen.fullscreen) or (c.screen.width == 0 and c.screen.height == 0) then
-//			assert(love.graphics.setMode(c.screen.width, c.screen.height, c.screen.fullscreen, c.screen.vsync, c.screen.fsaa), "Could not set screen mode")
-//		else
-//			error("Could not set screen mode")
-//		end
-//		love.graphics.setCaption(c.title)
-//	end
-//
-//	-- Our first timestep, because screen creation can take some time
-//	if love.timer then
-//		love.timer.step()
-//	end
-//
+    // Setup screen here.
+    if (c.screen && c.modules.graphics) {
+        if (love.graphics.checkMode(c.screen.width,
+                                    c.screen.height,
+                                    c.screen.fullscreen)
+                || (c.screen.width == 0 && c.screen.height == 0)) {
+            love.graphics.setMode(c.screen.width,
+                                  c.screen.height,
+                                  c.screen.fullscreen,
+                                  c.screen.vsync,
+                                  c.screen.fsaa);
+        }
+
+        love.graphics.setCaption(c.title);
+    }
+
+    // Our first timestep, because screen creation can take some time
+    if (love.timer) {
+        love.timer.step();
+    }
+
 //	if love.filesystem then
 //		love.filesystem.setRelease(c.release and is_fused_game)
 //		if c.identity then love.filesystem.setIdentity(c.identity) end

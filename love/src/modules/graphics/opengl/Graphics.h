@@ -191,7 +191,11 @@ namespace opengl
 		**/
 		void setCaption(const char * caption);
 
+#ifdef JSLOVE
+                std::string getCaption();
+#else
 		int getCaption(lua_State * L);
+#endif
 
 		/**
 		* Gets the width of the current display mode.
@@ -221,7 +225,10 @@ namespace opengl
 		* Only fullscreen modes are returned here, as all
 		* window sizes are supported (normally).
 		**/
+#ifdef JSLOVE
+#else
 		int getModes(lua_State * L);
+#endif
 
 		/**
 		* Scissor defines a box such that everything outside that box is discared and not drawn.
@@ -242,7 +249,10 @@ namespace opengl
 		* This native Lua function gets the current scissor box in the order of:
 		* x, y, width, height
 		**/
+#ifdef JSLOVE
+#else
 		int getScissor(lua_State * L);
+#endif
 
 		/**
 		 * Enables the stencil buffer and set stencil function to fill it

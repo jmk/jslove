@@ -1,4 +1,4 @@
-#include "jsc_timer.h"
+#include "WrapUtils.h"
 
 #include <timer/sdl/timer.h>
 
@@ -19,10 +19,7 @@ WRAP_FUNCTION(step)
 WRAP_FUNCTION(sleep)
 {
     if (argCount == 1) {
-        if (JSValueIsNumber(ctx, args[0])) {
-            double seconds = JSValueToNumber(ctx, args[0], NULL);
-            _t->sleep(seconds);
-        }
+        _t->sleep(JSLGetNumber(ctx, args[0]));
     }
     return JSValueMakeUndefined(ctx);
 }
@@ -54,7 +51,7 @@ WRAP_MODULE(timer)
     if (not _t) {
         _t = new Timer();
     } else {
-        printf("ERROR: already initialized\n");
+        printf("ERROR: already initialized timer\n");
     }
 
     // XXX: Not strictly necessary without a private data object, but may be
@@ -64,12 +61,12 @@ WRAP_MODULE(timer)
 
     JSObjectRef obj = JSObjectMake(ctx, cls, NULL);
 
-    AddFunction(ctx, obj, "step", step);
-    AddFunction(ctx, obj, "sleep", sleep);
-    AddFunction(ctx, obj, "getDelta", getDelta);
-    AddFunction(ctx, obj, "getFPS", getFPS);
-    AddFunction(ctx, obj, "getTime", getTime);
-    AddFunction(ctx, obj, "getMicroTime", getMicroTime);
+    JSLAddFunction(ctx, obj, "step", step);
+    JSLAddFunction(ctx, obj, "sleep", sleep);
+    JSLAddFunction(ctx, obj, "getDelta", getDelta);
+    JSLAddFunction(ctx, obj, "getFPS", getFPS);
+    JSLAddFunction(ctx, obj, "getTime", getTime);
+    JSLAddFunction(ctx, obj, "getMicroTime", getMicroTime);
 
     return obj;
 }

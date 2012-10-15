@@ -208,12 +208,19 @@ namespace opengl
 		currentWindow->setWindowTitle(title);
 	}
 
+#ifdef JSLOVE
+        std::string Graphics::getCaption()
+        {
+            return currentWindow->getWindowTitle();
+        }
+#else
 	int Graphics::getCaption(lua_State * L)
 	{
 		std::string title = currentWindow->getWindowTitle();
 		lua_pushstring(L, title.c_str());
 		return 1;
 	}
+#endif
 
 	int Graphics::getWidth()
 	{
@@ -237,6 +244,8 @@ namespace opengl
 		return currentWindow->isCreated();
 	}
 
+#ifdef JSLOVE
+#else
 	int Graphics::getModes(lua_State * L)
 	{
 		int n;
@@ -272,6 +281,7 @@ namespace opengl
 		delete[] modes;
 		return 1;
 	}
+#endif
 
 	void Graphics::setScissor(int x, int y, int width, int height)
 	{
@@ -284,6 +294,8 @@ namespace opengl
 		glDisable(GL_SCISSOR_TEST);
 	}
 
+#ifdef JSLOVE
+#else
 	int Graphics::getScissor(lua_State * L)
 	{
 		if (glIsEnabled(GL_SCISSOR_TEST) == GL_FALSE)
@@ -299,6 +311,7 @@ namespace opengl
 
 		return 4;
 	}
+#endif
 
 	void Graphics::defineStencil()
 	{
