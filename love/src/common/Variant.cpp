@@ -23,6 +23,7 @@
 
 namespace love
 {
+#ifndef JSLOVE
 	extern StringMap<Type, TYPE_MAX_ENUM> types;
 
 	love::Type extractudatatype(lua_State * L, int idx)
@@ -40,6 +41,7 @@ namespace love
 			lua_pop(L, 1);
 		return t;
 	}
+#endif
 
 	Variant::Variant(bool boolean)
 	{
@@ -75,6 +77,7 @@ namespace love
 		data.userdata = userdata;
 	}
 
+#ifndef JSLOVE
 	Variant::Variant(love::Type udatatype, void *userdata)
 	{
 		type = FUSERDATA;
@@ -89,6 +92,7 @@ namespace love
 		else
 			data.userdata = userdata;
 	}
+#endif
 
 	Variant::~Variant()
 	{
@@ -105,6 +109,7 @@ namespace love
 		}
 	}
 
+#ifndef JSLOVE
 	Variant *Variant::fromLua(lua_State *L, int n)
 	{
 		Variant *v = NULL;
@@ -170,4 +175,5 @@ namespace love
 				break;
 		}
 	}
+#endif // JSLOVE
 } // love

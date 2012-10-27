@@ -52,8 +52,10 @@ namespace love
 			} string;
 			void *userdata;
 		} data;
+#ifndef JSLOVE
 		love::Type udatatype;
 		bits flags;
+#endif
 
 	public:
 		
@@ -62,11 +64,15 @@ namespace love
 		Variant(const char *string, size_t len);
 		Variant(char c);
 		Variant(void *userdata);
+#ifndef JSLOVE
 		Variant(love::Type udatatype, void *userdata);
+#endif
 		virtual ~Variant();
 
+#ifndef JSLOVE
 		static Variant *fromLua(lua_State *L, int n);
 		void toLua(lua_State *L);
+#endif
 	}; // Variant
 } // love
 

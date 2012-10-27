@@ -16,25 +16,34 @@ void JSLAddFunction(
     JSStringRelease(nameStr);
 }
 
-bool JSLGetBoolean(JSContextRef ctx, JSValueRef value)
+bool JSLGetBoolean(
+    JSContextRef ctx,
+    JSValueRef value,
+    bool defaultValue)
 {
     if (JSValueIsBoolean(ctx, value)) {
         return JSValueToBoolean(ctx, value);
     } else {
-        return false;
+        return defaultValue;
     }
 }
 
-double JSLGetNumber(JSContextRef ctx, JSValueRef value)
+double JSLGetNumber(
+    JSContextRef ctx,
+    JSValueRef value,
+    double defaultValue)
 {
     if (JSValueIsNumber(ctx, value)) {
         return JSValueToNumber(ctx, value, NULL);
     } else {
-        return 0.0;
+        return defaultValue;
     }
 }
 
-std::string JSLGetString(JSContextRef ctx, JSValueRef value)
+std::string JSLGetString(
+    JSContextRef ctx,
+    JSValueRef value,
+    const std::string& defaultValue)
 {
     if (JSValueIsString(ctx, value)) {
         JSStringRef str = JSValueToStringCopy(ctx, value, NULL);
@@ -49,6 +58,52 @@ std::string JSLGetString(JSContextRef ctx, JSValueRef value)
 
         return result;
     } else {
-        return std::string();
+        return defaultValue;
     }
+}
+
+//
+// JSLObjectProxy
+//
+
+_JSLObjectProxy::_JSLObjectProxy(void* data_, JSLTypeId typeId_) :
+    typeId(typeId_),
+    data(data_)
+{
+    // Do nothing.
+}
+
+//
+// Class/instance utilities
+//
+
+bool JSLObjectIsA(JSObjectRef obj, love::bits t)
+{
+    void* p = JSObjectGetPrivate(obj);
+    _JSLObjectProxy* x = reinterpret_cast<_JSLObjectProxy*>(p);
+    return p and (x->typeId & t).any();
+}
+
+JSObjectRef JSLCreateObject(JSContextRef ctx)
+{
+    // TODO: Finalize callback should free private data.
+    JSClassDefinition def = kJSClassDefinitionEmpty;
+    JSClassRef cls = JSClassCreate(&def);
+
+    return JSObjectMake(ctx, cls, /* data */ NULL);
+}
+
+JSObjectRef JSLCreateObject(JSContextRef ctx, void* data, JSLTypeId typeId)
+{
+    JSObjectRef obj = JSLCreateObject(ctx);
+    if (obj and data) {
+        _JSLObjectProxy* proxy = new _JSLObjectProxy(data, typeId);
+        bool success = JSObjectSetPrivate(obj, proxy);
+
+        if (not success) {
+            printf("ERROR: Failed to set private data\n");
+        }
+    }
+
+    return obj;
 }

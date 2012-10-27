@@ -6,23 +6,26 @@
 
 #include <cstdio>
 
-#define DECLARE_MODULE(name)               \
-    extern JSValueRef __wrap_ ## name (    \
-        JSContextRef ctx);                 \
-                                           \
-    static JSValueRef __init_ ## name (    \
-        JSContextRef ctx,                  \
-        JSObjectRef function,              \
-        JSObjectRef self,                  \
-        size_t argCount,                   \
-        const JSValueRef args[],           \
-        JSValueRef *exception)             \
-    {                                      \
-        return __wrap_ ## name (ctx);      \
+#define DECLARE_MODULE(name)                    \
+    extern JSValueRef __wrap_module_ ## name (  \
+        JSContextRef ctx);                      \
+                                                \
+    static JSValueRef __init_ ## name (         \
+        JSContextRef ctx,                       \
+        JSObjectRef function,                   \
+        JSObjectRef self,                       \
+        size_t argCount,                        \
+        const JSValueRef args[],                \
+        JSValueRef *exception)                  \
+    {                                           \
+        return __wrap_module_ ## name (ctx);    \
     }
 
-DECLARE_MODULE(timer);
+DECLARE_MODULE(event);
+DECLARE_MODULE(image);
+DECLARE_MODULE(filesystem);
 DECLARE_MODULE(graphics);
+DECLARE_MODULE(timer);
 
 JSValueRef Print(JSContextRef ctx,
                  JSObjectRef function,
@@ -128,6 +131,19 @@ void InitContext(JSContextRef ctx)
         JSStringRelease(name);
     }
 
+    //
+    // XXX: Cut down on this boilerplate crap
+    //
+
+    {
+        JSStringRef name = JSStringCreateWithUTF8CString("__init_event");
+        JSObjectRef func =
+            JSObjectMakeFunctionWithCallback(ctx, name, __init_event);
+        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
+                            kJSPropertyAttributeNone, /*exception*/ NULL);
+        JSStringRelease(name);
+    }
+
     {
         JSStringRef name = JSStringCreateWithUTF8CString("__init_timer");
         JSObjectRef func =
@@ -138,9 +154,27 @@ void InitContext(JSContextRef ctx)
     }
 
     {
+        JSStringRef name = JSStringCreateWithUTF8CString("__init_filesystem");
+        JSObjectRef func =
+            JSObjectMakeFunctionWithCallback(ctx, name, __init_filesystem);
+        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
+                            kJSPropertyAttributeNone, /*exception*/ NULL);
+        JSStringRelease(name);
+    }
+
+    {
         JSStringRef name = JSStringCreateWithUTF8CString("__init_graphics");
         JSObjectRef func =
             JSObjectMakeFunctionWithCallback(ctx, name, __init_graphics);
+        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
+                            kJSPropertyAttributeNone, /*exception*/ NULL);
+        JSStringRelease(name);
+    }
+
+    {
+        JSStringRef name = JSStringCreateWithUTF8CString("__init_image");
+        JSObjectRef func =
+            JSObjectMakeFunctionWithCallback(ctx, name, __init_image);
         JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
                             kJSPropertyAttributeNone, /*exception*/ NULL);
         JSStringRelease(name);

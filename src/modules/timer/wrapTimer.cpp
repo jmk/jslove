@@ -46,7 +46,7 @@ WRAP_FUNCTION(getMicroTime)
 
 WRAP_MODULE(timer)
 {
-    printf("INIT TIMER JavaScriptCore\n");
+    printf("INIT timer\n");
 
     if (not _t) {
         _t = new Timer();

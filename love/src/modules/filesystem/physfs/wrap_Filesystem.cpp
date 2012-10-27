@@ -36,7 +36,7 @@ namespace physfs
 		return false;
 	}
 
-	int w_init(lua_State * L)
+	int w_fnit(lua_State * L)
 	{
 		const char * arg0 = luaL_checkstring(L, 1);
 
@@ -98,15 +98,15 @@ namespace physfs
 
 	int w_newFileData(lua_State * L)
 	{
-		if (!lua_isstring(L, 1))
+		if (!lua_fsstring(L, 1))
 			return luaL_error(L, "String expected.");
-		if (!lua_isstring(L, 2))
+		if (!lua_fsstring(L, 2))
 			return luaL_error(L, "String expected.");
 
 		size_t length = 0;
 		const char * str = lua_tolstring(L, 1, &length);
 		const char * filename = lua_tostring(L, 2);
-		const char * decstr = lua_isstring(L, 3) ? lua_tostring(L, 3) : 0;
+		const char * decstr = lua_fsstring(L, 3) ? lua_tostring(L, 3) : 0;
 
 		FileData::Decoder decoder = FileData::FILE;
 
@@ -162,14 +162,14 @@ namespace physfs
 		return 1;
 	}
 
-	int w_isDirectory(lua_State * L)
+	int w_fsDirectory(lua_State * L)
 	{
 		const char * arg = luaL_checkstring(L, 1);
 		lua_pushboolean(L, instance->isDirectory(arg) ? 1 : 0);
 		return 1;
 	}
 
-	int w_isFile(lua_State * L)
+	int w_fsFile(lua_State * L)
 	{
 		const char * arg = luaL_checkstring(L, 1);
 		lua_pushboolean(L, instance->isFile(arg) ? 1 : 0);
@@ -223,7 +223,7 @@ namespace physfs
 	{
 		File * file;
 
-		if(lua_isstring(L, 1))
+		if(lua_fsstring(L, 1))
 		{
 			file = instance->newFile(lua_tostring(L, 1));
 			try
@@ -240,7 +240,7 @@ namespace physfs
 		else
 			return luaL_error(L, "Expected filename.");
 
-		lua_pushcclosure(L, Filesystem::lines_i, 1);
+		lua_pushcclosure(L, Filesystem::lines_f, 1);
 		return 1;
 	}
 
@@ -366,7 +366,7 @@ namespace physfs
 
 	// List of functions to wrap.
 	static const luaL_Reg functions[] = {
-		{ "init",  w_init },
+		{ "init",  w_fnit },
 		{ "setRelease", w_setRelease },
 		{ "setIdentity",  w_setIdentity },
 		{ "setSource",  w_setSource },
@@ -376,8 +376,8 @@ namespace physfs
 		{ "getAppdataDirectory",  w_getAppdataDirectory },
 		{ "getSaveDirectory",  w_getSaveDirectory },
 		{ "exists",  w_exists },
-		{ "isDirectory",  w_isDirectory },
-		{ "isFile",  w_isFile },
+		{ "isDirectory",  w_fsDirectory },
+		{ "isFile",  w_fsFile },
 		{ "mkdir",  w_mkdir },
 		{ "remove",  w_remove },
 		{ "read",  w_read },

@@ -49,6 +49,7 @@ namespace event
 			args[i]->release();
 	}
 
+#ifndef JSLOVE
 	int Message::toLua(lua_State *L)
 	{
 		luax_pushstring(L, name);
@@ -77,6 +78,7 @@ namespace event
 		}
 		return m;
 	}
+#endif
 
 	Event::~Event()
 	{

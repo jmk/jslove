@@ -47,8 +47,10 @@ namespace event
 		Message(std::string name, Variant *a = NULL, Variant *b = NULL, Variant *c = NULL, Variant *d = NULL);
 		~Message();
 
+#ifndef JSLOVE
 		int toLua(lua_State *L);
 		static Message *fromLua(lua_State *L, int n);
+#endif
 	};
 
 	class Event : public Module

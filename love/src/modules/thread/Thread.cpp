@@ -22,10 +22,12 @@
 
 #include "Thread.h"
 
+#ifndef JSLOVE
 #ifdef LOVE_BUILD_STANDALONE
 extern "C" int luaopen_love(lua_State * L);
 #endif // LOVE_BUILD_STANDALONE
 extern "C" int luaopen_love_thread(lua_State *L);
+#endif
 
 namespace love
 {
@@ -39,6 +41,7 @@ namespace thread
 
 	void Thread::ThreadThread::main()
 	{
+#ifndef JSLOVE
 		lua_State * L = lua_open();
 		luaL_openlibs(L);
 	#ifdef LOVE_BUILD_STANDALONE
@@ -66,6 +69,7 @@ namespace thread
 			((Conditional*) comm->cond)->broadcast();
 		}
 		lua_close(L);
+#endif // JSLOVE
 	}
 
 	ThreadData::ThreadData(const char *name, size_t len, const char *code, void *mutex, void *cond)
@@ -182,7 +186,9 @@ namespace thread
 	{
 		if (handle)
 		{
+#ifndef JSLOVE
 			Lock lock((Mutex *) _gcmutex);
+#endif
 			handle->kill();
 			delete handle;
 			handle = 0;
