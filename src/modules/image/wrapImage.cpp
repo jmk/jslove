@@ -6,6 +6,7 @@
 #include <image/devil/Image.h>
 
 using love::Data;
+using love::Exception;
 using love::image::ImageData;
 using love::image::devil::Image;
 
@@ -34,7 +35,7 @@ WRAP_FUNCTION(newImageData)
 
         try {
             imageData = _i->newImageData(data);
-        } catch (love::Exception& e) {
+        } catch (Exception& e) {
             printf("ERROR: Couldn't create image data: %s\n", e.what());
             goto undefined;
         }

@@ -4,11 +4,25 @@
 #include <filesystem/FileData.h>
 #include <filesystem/physfs/Filesystem.h>
 
+using love::Exception;
+using love::Type;
 using love::filesystem::FileData;
 using love::filesystem::physfs::Filesystem;
-using love::Type;
 
 static Filesystem* _f = NULL;
+
+WRAP_FUNCTION(init)
+{
+    if (argCount == 1) {
+        std::string arg0 = JSLGetString(ctx, args[0]);
+        try {
+            _f->init(arg0.c_str());
+        } catch (Exception & e) {
+            printf("ERROR: Couldn't init filesystem module: %s\n", e.what());
+        }
+    }
+    return JSValueMakeUndefined(ctx);
+}
 
 WRAP_FUNCTION(setRelease)
 {
@@ -36,6 +50,12 @@ WRAP_FUNCTION(setSource)
         std::string source = JSLGetString(ctx, args[0]);
 
         bool result = _f->setSource(source.c_str());
+
+        if (not result) {
+            printf("ERROR: Couldn't set source.\n");
+        }
+
+    printf("setSource! %s -> %d\n", source.c_str(), result);
         return JSValueMakeBoolean(ctx, result);
     }
     return JSValueMakeUndefined(ctx);
@@ -127,6 +147,7 @@ WRAP_MODULE(filesystem)
 
     JSObjectRef obj = JSObjectMake(ctx, cls, NULL);
 
+    JSLAddFunction(ctx, obj, "init", init);
     JSLAddFunction(ctx, obj, "setRelease", setRelease);
     JSLAddFunction(ctx, obj, "setIdentity", setIdentity);
     JSLAddFunction(ctx, obj, "setSource", setSource);

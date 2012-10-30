@@ -27,36 +27,6 @@ DECLARE_MODULE(filesystem);
 DECLARE_MODULE(graphics);
 DECLARE_MODULE(timer);
 
-static JSValueRef
-Print(
-    JSContextRef ctx,
-    JSObjectRef function,
-    JSObjectRef thisObject,
-    size_t argCount,
-    const JSValueRef args[],
-    JSValueRef *exception)
-{
-    for (size_t i = 0; i < argCount; i++) {
-        JSStringRef str = JSValueToStringCopy(ctx, args[i], NULL);
-
-        size_t size = JSStringGetMaximumUTF8CStringSize(str);
-        char* s = new char[size];
-        JSStringGetUTF8CString(str, s, size);
-
-        JSStringRelease(str);
-
-        if (i != 0) {
-            printf(" ");
-        }
-
-        printf("%s", s);
-    }
-
-    printf("\n");
-
-    return NULL;
-}
-
 static std::string
 Stringify(JSContextRef ctx, JSValueRef value)
 {
@@ -125,6 +95,25 @@ ReportException(
            Stringify(ctx, line).c_str());
 }
 
+static JSValueRef
+Eval(
+    JSContextRef ctx,
+    const std::string& script,
+    const char* name)
+{
+    JSStringRef scriptStr = JSStringCreateWithUTF8CString(script.c_str());
+    JSStringRef nameStr = JSStringCreateWithUTF8CString(name);
+    JSValueRef exception = NULL;
+    JSValueRef result =
+        JSEvaluateScript(ctx, scriptStr, NULL, nameStr, 0, &exception);
+
+    if (exception) {
+        ReportException(ctx, exception);
+    }
+
+    return result;
+}
+
 static void
 SetGlobal(JSContextRef ctx, const char* name, JSObjectRef obj)
 {
@@ -144,10 +133,90 @@ JSContextRef ctx, const char* name, JSObjectCallAsFunctionCallback func)
     JSStringRelease(nameStr);
 }
 
+//
+// -----------------------------------------------------------------------
+//
+
+static JSValueRef
+Print(
+    JSContextRef ctx,
+    JSObjectRef function,
+    JSObjectRef thisObject,
+    size_t argCount,
+    const JSValueRef args[],
+    JSValueRef *exception)
+{
+    for (size_t i = 0; i < argCount; i++) {
+        JSStringRef str = JSValueToStringCopy(ctx, args[i], NULL);
+
+        size_t size = JSStringGetMaximumUTF8CStringSize(str);
+        char* s = new char[size];
+        JSStringGetUTF8CString(str, s, size);
+
+        if (i != 0) {
+            printf(" ");
+        }
+
+        printf("%s", s);
+
+        JSStringRelease(str);
+        delete s;
+    }
+
+    printf("\n");
+
+    return NULL;
+}
+
+#include <physfs.h>
+
+static JSValueRef
+Require(
+    JSContextRef ctx,
+    JSObjectRef function,
+    JSObjectRef thisObject,
+    size_t argCount,
+    const JSValueRef args[],
+    JSValueRef *exception)
+{
+    if (argCount == 1) {
+        std::string filename = JSLGetString(ctx, args[0]);
+
+        bool exists = PHYSFS_exists(filename.c_str());
+
+        if (not exists) {
+            // Try again with an extension.
+            filename += ".js";
+            exists = PHYSFS_exists(filename.c_str());
+        }
+
+        if (exists) {
+            PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
+            PHYSFS_sint64 length = PHYSFS_fileLength(file);
+
+            char *buf = new char[length];
+            int length_read = PHYSFS_read(file, buf, 1, length);
+            PHYSFS_close(file);
+
+            std::string script(buf, length_read);
+            Eval(ctx, script, filename.c_str());
+
+            delete buf;
+        }
+    }
+
+    return JSValueMakeUndefined(ctx);
+}
+
+//
+// -----------------------------------------------------------------------
+//
+
 static void
 InitContext(JSContextRef ctx)
 {
     SetGlobalFunction(ctx, "print", Print);
+    SetGlobalFunction(ctx, "require", Require);
 
     // Module initializers
     SetGlobalFunction(ctx, "__init_event", __init_event);
@@ -186,23 +255,7 @@ int JSCMain(
     InitContext(ctx);
     InitArgs(ctx, argc, argv);
 
-    JSStringRef script = JSStringCreateWithUTF8CString(bootScript.c_str());
-    JSStringRef name = JSStringCreateWithUTF8CString("boot.js");
-    JSValueRef exception = NULL;
-    JSValueRef result = JSEvaluateScript(ctx, script, NULL, name, 0, &exception);
-
-    if (result and not JSValueIsUndefined(ctx, result)) {
-        JSStringRef str = JSValueToStringCopy(ctx, result, NULL);
-
-        size_t size = JSStringGetMaximumUTF8CStringSize(str);
-        char* s = new char[size];
-        JSStringGetUTF8CString(str, s, size);
-        printf("end! result: %s\n", s);
-    }
-
-    if (exception) {
-        ReportException(ctx, exception);
-    }
+    Eval(ctx, bootScript, "boot.js");
 
     JSGlobalContextRelease(ctx);
 

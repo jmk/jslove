@@ -107,6 +107,7 @@ love.boot = function() {
 
     // This is absolutely needed.
     love.filesystem = __init_filesystem();
+    love.filesystem.init(__argv[0]);
 
 //	local can_has_game = pcall(love.filesystem.setSource, arg0)
     var can_has_game = false;
@@ -604,8 +605,6 @@ love.nogame = function() {
     }
 
     love.keyreleased = function(key) {
-        print("nogame keyreleased!", key);
-
         if (key == "escape") {
             love.event.quit();
         }
@@ -619,8 +618,6 @@ love.nogame = function() {
         t.modules.joystick = false;
     }
 }
-
-love.nogame();
 
 //
 // Main entry point.
