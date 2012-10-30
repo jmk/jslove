@@ -24,6 +24,7 @@ bool JSLGetBoolean(
     if (JSValueIsBoolean(ctx, value)) {
         return JSValueToBoolean(ctx, value);
     } else {
+        printf("ERROR: invalid boolean\n");  // XXX raise exception
         return defaultValue;
     }
 }
@@ -36,6 +37,7 @@ double JSLGetNumber(
     if (JSValueIsNumber(ctx, value)) {
         return JSValueToNumber(ctx, value, NULL);
     } else {
+        printf("ERROR: invalid number\n");  // XXX raise exception
         return defaultValue;
     }
 }
@@ -58,8 +60,18 @@ std::string JSLGetString(
 
         return result;
     } else {
+        printf("ERROR: invalid string\n");  // XXX raise exception
         return defaultValue;
     }
+}
+
+JSValueRef
+JSLMakeStringValue(JSContextRef ctx, const std::string& str)
+{
+    JSStringRef jsStr = JSStringCreateWithUTF8CString(str.c_str());
+    JSValueRef result = JSValueMakeString(ctx, jsStr);
+    JSStringRelease(jsStr);
+    return result;
 }
 
 //

@@ -27,12 +27,14 @@ DECLARE_MODULE(filesystem);
 DECLARE_MODULE(graphics);
 DECLARE_MODULE(timer);
 
-JSValueRef Print(JSContextRef ctx,
-                 JSObjectRef function,
-                 JSObjectRef thisObject,
-                 size_t argCount,
-                 const JSValueRef args[],
-                 JSValueRef *exception)
+static JSValueRef
+Print(
+    JSContextRef ctx,
+    JSObjectRef function,
+    JSObjectRef thisObject,
+    size_t argCount,
+    const JSValueRef args[],
+    JSValueRef *exception)
 {
     for (size_t i = 0; i < argCount; i++) {
         JSStringRef str = JSValueToStringCopy(ctx, args[i], NULL);
@@ -55,7 +57,8 @@ JSValueRef Print(JSContextRef ctx,
     return NULL;
 }
 
-std::string Stringify(JSContextRef ctx, JSValueRef value)
+static std::string
+Stringify(JSContextRef ctx, JSValueRef value)
 {
     if (JSValueIsUndefined(ctx, value)) {
         return "undefined";
@@ -72,7 +75,8 @@ std::string Stringify(JSContextRef ctx, JSValueRef value)
     return result;
 }
 
-JSValueRef GetProperty(
+static JSValueRef
+GetProperty(
     JSContextRef ctx,
     JSObjectRef obj,
     const char* name)
@@ -83,7 +87,8 @@ JSValueRef GetProperty(
     return prop;
 }
 
-void ReportException(
+static void
+ReportException(
     JSContextRef ctx,
     JSValueRef exception)
 {
@@ -120,77 +125,69 @@ void ReportException(
            Stringify(ctx, line).c_str());
 }
 
-void InitContext(JSContextRef ctx)
+static void
+SetGlobal(JSContextRef ctx, const char* name, JSObjectRef obj)
 {
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("print");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, Print);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
-
-    //
-    // XXX: Cut down on this boilerplate crap
-    //
-
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("__init_event");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, __init_event);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
-
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("__init_timer");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, __init_timer);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
-
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("__init_filesystem");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, __init_filesystem);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
-
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("__init_graphics");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, __init_graphics);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
-
-    {
-        JSStringRef name = JSStringCreateWithUTF8CString("__init_image");
-        JSObjectRef func =
-            JSObjectMakeFunctionWithCallback(ctx, name, __init_image);
-        JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), name, func,
-                            kJSPropertyAttributeNone, /*exception*/ NULL);
-        JSStringRelease(name);
-    }
+    JSStringRef nameStr = JSStringCreateWithUTF8CString(name);
+    JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), nameStr, obj,
+                        kJSPropertyAttributeNone, /*exception*/ NULL);
+    JSStringRelease(nameStr);
 }
 
-int JSCMain(const std::string& str)
+static void
+SetGlobalFunction(
+JSContextRef ctx, const char* name, JSObjectCallAsFunctionCallback func)
+{
+    JSStringRef nameStr = JSStringCreateWithUTF8CString(name);
+    JSObjectRef funcObj = JSObjectMakeFunctionWithCallback(ctx, nameStr, func);
+    SetGlobal(ctx, name, funcObj);
+    JSStringRelease(nameStr);
+}
+
+static void
+InitContext(JSContextRef ctx)
+{
+    SetGlobalFunction(ctx, "print", Print);
+
+    // Module initializers
+    SetGlobalFunction(ctx, "__init_event", __init_event);
+    SetGlobalFunction(ctx, "__init_filesystem", __init_filesystem);
+    SetGlobalFunction(ctx, "__init_graphics", __init_graphics);
+    SetGlobalFunction(ctx, "__init_image", __init_image);
+    SetGlobalFunction(ctx, "__init_timer", __init_timer);
+}
+
+static void
+InitArgs(
+    JSContextRef ctx,
+    int argc,
+    char** argv)
+{
+    JSValueRef values[argc];
+
+    for (int i = 0; i < argc; i++) {
+        JSStringRef arg = JSStringCreateWithUTF8CString(argv[i]);
+        values[i] = JSValueMakeString(ctx, arg);
+        JSStringRelease(arg);
+    }
+
+    SetGlobal(ctx, "__argv", JSObjectMakeArray(ctx, argc, values, NULL));
+}
+
+int JSCMain(
+    const std::string& bootScript,
+    int argc,
+    char** argv)
 {
     printf("JavaScriptCore!\n");
 
     JSGlobalContextRef ctx = JSGlobalContextCreate(NULL);
 
     InitContext(ctx);
+    InitArgs(ctx, argc, argv);
 
-    JSStringRef script = JSStringCreateWithUTF8CString(str.c_str());
-    JSStringRef name = JSStringCreateWithUTF8CString("boot.lua");
+    JSStringRef script = JSStringCreateWithUTF8CString(bootScript.c_str());
+    JSStringRef name = JSStringCreateWithUTF8CString("boot.js");
     JSValueRef exception = NULL;
     JSValueRef result = JSEvaluateScript(ctx, script, NULL, name, 0, &exception);
 
@@ -200,7 +197,7 @@ int JSCMain(const std::string& str)
         size_t size = JSStringGetMaximumUTF8CStringSize(str);
         char* s = new char[size];
         JSStringGetUTF8CString(str, s, size);
-        printf("result: %s\n", s);
+        printf("end! result: %s\n", s);
     }
 
     if (exception) {

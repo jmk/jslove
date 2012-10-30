@@ -26,11 +26,18 @@
 
 #include <cstring>
 
+#ifdef JSLOVE
+struct JSLPrivateAccess;
+#endif
+
 namespace love
 {
 	class Variant : public love::Object
 	{
 	private:
+#ifdef JSLOVE
+                friend struct JSLPrivateAccess;
+#endif
 		enum Type
 		{
 			UNKNOWN = 0,
@@ -38,8 +45,10 @@ namespace love
 			NUMBER,
 			CHARACTER,
 			STRING,
+#ifndef JSLOVE
 			LUSERDATA,
 			FUSERDATA
+#endif
 		} type;
 		union
 		{
@@ -63,8 +72,8 @@ namespace love
 		Variant(double number);
 		Variant(const char *string, size_t len);
 		Variant(char c);
-		Variant(void *userdata);
 #ifndef JSLOVE
+		Variant(void *userdata);
 		Variant(love::Type udatatype, void *userdata);
 #endif
 		virtual ~Variant();

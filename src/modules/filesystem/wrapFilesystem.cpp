@@ -10,6 +10,54 @@ using love::Type;
 
 static Filesystem* _f = NULL;
 
+WRAP_FUNCTION(setRelease)
+{
+    if (argCount == 1) {
+        bool release = JSLGetBoolean(ctx, args[0]);
+        _f->setRelease(release);
+    }
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(setIdentity)
+{
+    if (argCount == 1) {
+        std::string identity = JSLGetString(ctx, args[0]);
+
+        bool result = _f->setIdentity(identity.c_str());
+        return JSValueMakeBoolean(ctx, result);
+    }
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(setSource)
+{
+    if (argCount == 1) {
+        std::string source = JSLGetString(ctx, args[0]);
+
+        bool result = _f->setSource(source.c_str());
+        return JSValueMakeBoolean(ctx, result);
+    }
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(getWorkingDirectory)
+{
+    std::string dir(_f->getWorkingDirectory());
+    return JSLMakeStringValue(ctx, dir);
+}
+
+WRAP_FUNCTION(exists)
+{
+    if (argCount == 1) {
+        std::string path = JSLGetString(ctx, args[0]);
+
+        bool result = _f->exists(path.c_str());
+        return JSValueMakeBoolean(ctx, result);
+    }
+    return JSValueMakeUndefined(ctx);
+}
+
 WRAP_FUNCTION(newFileData)
 {
     if (argCount == 3) {
@@ -79,6 +127,25 @@ WRAP_MODULE(filesystem)
 
     JSObjectRef obj = JSObjectMake(ctx, cls, NULL);
 
+    JSLAddFunction(ctx, obj, "setRelease", setRelease);
+    JSLAddFunction(ctx, obj, "setIdentity", setIdentity);
+    JSLAddFunction(ctx, obj, "setSource", setSource);
+//    newFile
+    JSLAddFunction(ctx, obj, "getWorkingDirectory", getWorkingDirectory);
+//    getUserDirectory
+//    getAppdataDirectory
+//    getSaveDirectory
+    JSLAddFunction(ctx, obj, "exists", exists);
+//    isDirectory
+//    isFile
+//    mkdir
+//    remove
+//    read
+//    write
+//    enumerate
+//    lines
+//    load
+//    getLastModified
     JSLAddFunction(ctx, obj, "newFileData", newFileData);
 
     return obj;

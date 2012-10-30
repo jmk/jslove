@@ -32,6 +32,10 @@
 // STL
 #include <queue>
 
+#ifdef JSLOVE
+struct JSLPrivateAccess;
+#endif
+
 namespace love
 {
 namespace event
@@ -39,6 +43,9 @@ namespace event
 	class Message : public Object
 	{
 	private:
+#ifdef JSLOVE
+                friend struct JSLPrivateAccess;
+#endif
 		std::string name;
 		Variant *args[4];
 		int nargs;

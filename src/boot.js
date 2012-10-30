@@ -1,8 +1,99 @@
 var love = {};
 
-love.createhandlers = function() {
-    // TODO
+love.path = {};
+
+// Replace any \ with /.
+love.path.normalslashes = function(p) {
+    return p.replace(/\\/g , "/");
 }
+
+// Makes sure there is a slash at the end of a path.
+love.path.endslash = function(p) {
+    if (p.charAt(p.length - 1) != "/") {
+        return p + "/";
+    } else {
+        return p;
+    }
+}
+
+// Checks whether a path is absolute or not.
+love.path.abs = function(p) {
+    var tmp = love.path.normalslashes(p);
+
+    // Path is absolute if it starts with a "/".
+    if (p.charAt(0) == "/") {
+        return true;
+    }
+
+    // Path is absolute if it starts with a
+    // letter followed by a colon.
+    if (p.match(/^[a-zA-Z]:/)) {
+        return true;
+    }
+
+    // Relative.
+    return false;
+}
+
+// Converts any path into a full path.
+love.path.getfull = function(p) {
+    if (love.path.abs(p)) {
+        return love.path.normalslashes(p);
+    }
+
+    var cwd = love.filesystem.getWorkingDirectory();
+    cwd = love.path.normalslashes(cwd);
+    cwd = love.path.endslash(cwd);
+
+    // Construct a full path.
+    var full = cwd + love.path.normalslashes(p);
+
+    // Remove trailing /., if applicable
+    if (p.substr(p.length-2, 2) == "/.") {
+        p = p.substr(0, p.length-2);
+    }
+
+    return p;
+}
+
+// Returns the leaf of a full path.
+love.path.leaf = function(p) {
+    var elems = p.split("/");
+    return elems[elems.length-1];
+}
+
+love.createhandlers = function() {
+    love.handlers = {
+        keypressed: function(b, u) {
+            if (love.keypressed) { love.keypressed(b, u); }
+        },
+        keyreleased: function(b) {
+            if (love.keyreleased) { love.keyreleased(b); }
+        },
+        mousepressed: function (x,y,b) {
+            if (love.mousepressed) { love.mousepressed(x,y,b); }
+        },
+        mousereleased: function (x,y,b) {
+            if (love.mousereleased) { love.mousereleased(x,y,b) }
+        },
+        joystickpressed: function (j,b) {
+            if (love.joystickpressed) { love.joystickpressed(j,b) }
+        },
+        joystickreleased: function (j,b) {
+            if (love.joystickreleased) { love.joystickreleased(j,b) }
+        },
+        focus: function (f) {
+            if (love.focus) { love.focus(f) }
+        },
+        quit: function () {
+            return;
+        },
+    };
+}
+
+    // TODO: Support for fused games.
+var is_fused_game = false;
+var no_game_code = false;
 
 love.boot = function() {
     // TODO:
@@ -10,10 +101,36 @@ love.boot = function() {
     //   - verify game data
     //   - trigger nogame() if needed
 
+    print("args:", __argv);
+
     print("boot()");
 
     // This is absolutely needed.
-//    love.filesystem = __love_init_filesystem();
+    love.filesystem = __init_filesystem();
+
+//	local can_has_game = pcall(love.filesystem.setSource, arg0)
+    var can_has_game = false;
+
+    if (!can_has_game && __argv[1]) {
+        var full_source = love.path.getfull(__argv[1]);
+        var leaf = love.path.leaf(full_source);
+        love.filesystem.setIdentity(leaf);
+        can_has_game = love.filesystem.setSource(full_source);
+    }
+
+    print("can_has_game?", can_has_game);
+
+    if (can_has_game && !(love.filesystem.exists("main.js")
+                          || love.filesystem.exists("conf.js")))
+    {
+        no_game_code = true;
+    }
+
+    print("no_game_code?", no_game_code);
+
+    if (!can_has_game) {
+        love.nogame();
+    }
 }
 
 love.init = function() {
@@ -82,7 +199,6 @@ love.init = function() {
     // Load requested modules.
     // XXX: temp
     love.event      = __init_event();
-    love.filesystem = __init_filesystem();
     love.graphics   = __init_graphics();
     love.image      = __init_image();
     love.timer      = __init_timer();
@@ -112,16 +228,22 @@ love.init = function() {
         love.timer.step();
     }
 
-//	if love.filesystem then
-//		love.filesystem.setRelease(c.release and is_fused_game)
-//		if c.identity then love.filesystem.setIdentity(c.identity) end
-//		if love.filesystem.exists("main.lua") then require("main") end
-//	end
-//
-//	if no_game_code then
-//		error("No code to run\nYour game might be packaged incorrectly\nMake sure main.lua is at the top level of the zip")
-//	end
-//
+    if (love.filesystem) {
+        love.filesystem.setRelease(c.release && is_fused_game);
+        if (c.identity) {
+            love.filesystem.setIdentity(c.identity);
+        }
+        if (love.filesystem.exists("main.js")) {
+            require("main");
+        }
+    }
+
+    if (no_game_code) {
+        error("No code to run\n" +
+              "Your game might be packaged incorrectly\n" +
+              "Make sure main.lua is at the top level of the zip");
+    }
+
 //	-- Console hack
 //	if c.console and love._openConsole then
 //		love._openConsole()
@@ -169,7 +291,7 @@ love.run = function() {
     //   - pass along correct argv
 
     if (love.load) {
-        var argv = [];
+        var argv = []; // XXX
         love.load(argv);
     }
 
@@ -182,19 +304,25 @@ love.run = function() {
             love.event.pump();
 
             var result = love.event.poll();
-//            var type = result[0];
-//
-//            if (type == "quit") {
-//                if (!love.quit || !love.quit()) {
-//                    if (love.audio) {
-//                        love.audio.stop();
-//                    }
-//                    return;
-//                }
-//            }
-//
-//            var args = result.slice(1);
-//            love.handlers[type].apply(this, args);
+
+            if (result) {
+                var type = result[0];
+
+                if (type == "quit") {
+                    if (!love.quit || !love.quit()) {
+                        if (love.audio) {
+                            love.audio.stop();
+                        }
+                        return;
+                    }
+                }
+
+                var args = result.slice(1);
+                var handler = love.handlers[type];
+                if (handler) {
+                    handler.apply(this, args);
+                }
+            }
         }
 
         // Update dt, as we'll be passing it to update.
@@ -447,8 +575,6 @@ love.nogame = function() {
     }
 
     love.load = function() {
-        print("nogame load!");
-
         pig = {
             x: cx,
             y: cy,

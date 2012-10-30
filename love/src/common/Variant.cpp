@@ -71,13 +71,13 @@ namespace love
 		data.character = c;
 	}
 
+#ifndef JSLOVE
 	Variant::Variant(void *userdata)
 	{
 		type = LUSERDATA;
 		data.userdata = userdata;
 	}
 
-#ifndef JSLOVE
 	Variant::Variant(love::Type udatatype, void *userdata)
 	{
 		type = FUSERDATA;
@@ -101,9 +101,11 @@ namespace love
 			case STRING:
 				delete[] data.string.str;
 				break;
+#ifndef JSLOVE
 			case FUSERDATA:
 				((love::Object *) data.userdata)->release();
 				break;
+#endif
 			default:
 				break;
 		}

@@ -231,7 +231,7 @@ namespace physfs
 		bool close(File * file);
 
 #ifdef JSLOVE
-
+                // TODO
 #else
 		/**
 		* Reads count bytes from an open file.
@@ -248,6 +248,7 @@ namespace physfs
 		* a string.
 		**/
 		int write(lua_State * L);
+#endif
 
 		/**
 		* Check if end-of-file is reached.
@@ -267,6 +268,9 @@ namespace physfs
 		**/
 		bool seek(File * file, uint64 pos);
 
+#ifdef JSLOVE
+                // TODO
+#else
 		/**
 		* This "native" method returns a table of all
 		* files in a given directory.

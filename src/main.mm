@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 
     std::string str([bootScript UTF8String]);
 
-    JSCMain(str);
+    JSCMain(str, argc, argv);
 //    V8Main(str);
 
     return 0;

@@ -4,7 +4,6 @@
 #include <JavaScriptCore/JavaScript.h>
 
 #include <string>
-#include <common/types.h>
 
 //
 // General utilities
@@ -24,6 +23,8 @@ std::string JSLGetString(
     JSContextRef, JSValueRef,
     const std::string& defaultValue = std::string());
 
+JSValueRef JSLMakeStringValue(JSContextRef, const std::string&);
+
 #define WRAP_FUNCTION(name)       \
     static JSValueRef name (      \
         JSContextRef ctx,         \
@@ -41,7 +42,8 @@ std::string JSLGetString(
 // Object/type utilities
 //
 
-// XXX: It would be nice to avoid this dependency.
+// XXX: It would be nice to avoid this direct dependency on love2d.
+#include <common/types.h>
 typedef love::bits JSLTypeId;
 
 struct _JSLObjectProxy

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9618D4AF163BC2B800AFD8A9 /* wrapEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618D4AD163BC2B800AFD8A9 /* wrapEvent.cpp */; };
+		9618D4B6163FA3C300AFD8A9 /* JSLPrivateAccess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618D4B4163FA3C300AFD8A9 /* JSLPrivateAccess.cpp */; };
 		96880208162A41E700309623 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96880207162A41E700309623 /* Cocoa.framework */; };
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
@@ -74,6 +75,8 @@
 
 /* Begin PBXFileReference section */
 		9618D4AD163BC2B800AFD8A9 /* wrapEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapEvent.cpp; sourceTree = "<group>"; };
+		9618D4B4163FA3C300AFD8A9 /* JSLPrivateAccess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSLPrivateAccess.cpp; sourceTree = "<group>"; };
+		9618D4B5163FA3C300AFD8A9 /* JSLPrivateAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSLPrivateAccess.h; sourceTree = "<group>"; };
 		96880203162A41E700309623 /* jslove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jslove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96880207162A41E700309623 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9688020A162A41E700309623 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -263,12 +266,14 @@
 		9688020D162A41E700309623 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				968807A3162B8FB200309623 /* WrapUtils.cpp */,
 				9688076A162B6EDB00309623 /* main.mm */,
 				968806E0162AAF3100309623 /* jscimpl.cpp */,
 				968806E1162AAF3100309623 /* jscimpl.h */,
+				9618D4B4163FA3C300AFD8A9 /* JSLPrivateAccess.cpp */,
+				9618D4B5163FA3C300AFD8A9 /* JSLPrivateAccess.h */,
+				968807A3162B8FB200309623 /* WrapUtils.cpp */,
 				968807A2162B89D600309623 /* WrapUtils.h */,
-				96880790162B88AC00309623 /* Module Wrappers */,
+				96880790162B88AC00309623 /* Module wrappers */,
 				96880232162A6ED200309623 /* Scripts */,
 				9688020E162A41E700309623 /* Supporting Files */,
 			);
@@ -419,7 +424,7 @@
 			path = physfs;
 			sourceTree = "<group>";
 		};
-		96880790162B88AC00309623 /* Module Wrappers */ = {
+		96880790162B88AC00309623 /* Module wrappers */ = {
 			isa = PBXGroup;
 			children = (
 				9618D4AB163BC2B800AFD8A9 /* event */,
@@ -428,7 +433,7 @@
 				96880794162B88AC00309623 /* graphics */,
 				96880795162B88AC00309623 /* timer */,
 			);
-			name = "Module Wrappers";
+			name = "Module wrappers";
 			path = modules;
 			sourceTree = "<group>";
 		};
@@ -741,6 +746,7 @@
 				96880883162BDD2B00309623 /* Vector.cpp in Sources */,
 				96880885162BDD3D00309623 /* Variant.cpp in Sources */,
 				9618D4AF163BC2B800AFD8A9 /* wrapEvent.cpp in Sources */,
+				9618D4B6163FA3C300AFD8A9 /* JSLPrivateAccess.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

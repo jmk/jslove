@@ -47,25 +47,19 @@ WRAP_FUNCTION(setMode)
 
 WRAP_FUNCTION(reset)
 {
-    if (argCount == 0) {
-        _g->clear();
-    }
+    _g->clear();
     return JSValueMakeUndefined(ctx);
 }
 
 WRAP_FUNCTION(clear)
 {
-    if (argCount == 0) {
-        _g->clear();
-    }
+    _g->clear();
     return JSValueMakeUndefined(ctx);
 }
 
 WRAP_FUNCTION(present)
 {
-    if (argCount == 0) {
-        _g->present();
-    }
+    _g->present();
     return JSValueMakeUndefined(ctx);
 }
 

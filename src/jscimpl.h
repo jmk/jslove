@@ -3,6 +3,7 @@
 
 #include <string>
 
-int JSCMain(const std::string&);
+int JSCMain(const std::string& bootScript,
+            int argc, char** argv);
 
-#endif /* defined(__jslove__jscimpl__) */
+#endif
