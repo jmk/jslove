@@ -2,7 +2,7 @@
 
 JSLove is a JavaScript port of the [LÖVE](https://love2d.org) game engine.
 
-Combining LÖVE with JavaScript sets the stage for some interesting possibilities: 
+Combining LÖVE with JavaScript sets the stage for some interesting possibilities in the future: 
 
 * A more direct path for deploying LÖVE games on the web. Currently, the [LÖVE WebPlayer project](https://github.com/ghoulsblade/love-webplayer) must convert Lua code into JavaScript.
 
