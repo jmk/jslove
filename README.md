@@ -20,7 +20,6 @@ JSLove has the same external dependencies as LÖVE. To build from source, you mu
 * [PhysicsFS](http://icculus.org/physfs/)
 * [FreeType](http://www.freetype.org/)
 * [DevIL](http://openil.sourceforge.net/)
-* JavaScriptCore
 
 The included Xcode project assumes that these libraries have been installed via the [Homebrew package manager](http://mxcl.github.com/homebrew/) (i.e., in `/usr/local`).
 
