@@ -89,12 +89,12 @@ _JSLObjectProxy::_JSLObjectProxy(void* data_, JSLTypeId typeId_) :
 // Class/instance utilities
 //
 
-bool JSLObjectIsA(JSObjectRef obj, love::bits t)
-{
-    void* p = JSObjectGetPrivate(obj);
-    _JSLObjectProxy* x = reinterpret_cast<_JSLObjectProxy*>(p);
-    return p and (x->typeId & t).any();
-}
+//bool JSLObjectIsA(JSObjectRef obj, JSLTypeId t)
+//{
+//    void* p = JSObjectGetPrivate(obj);
+//    _JSLObjectProxy* x = reinterpret_cast<_JSLObjectProxy*>(p);
+//    return p and (x->typeId & t).any();
+//}
 
 JSObjectRef JSLCreateObject(JSContextRef ctx)
 {

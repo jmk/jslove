@@ -25,7 +25,7 @@ WRAP_FUNCTION(newImageData)
     if (argCount == 1) {
         JSObjectRef arg0 = JSValueToObject(ctx, args[0], NULL);
 
-        if (not JSLObjectIsA(arg0, love::DATA_T)) {
+        if (not JSLObjectIsA<Data>(arg0)) {
             printf("ERROR: Invalid data\n");
             goto undefined;
         }

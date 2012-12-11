@@ -6,9 +6,11 @@
 #include <graphics/Image.h>
 #include <image/ImageData.h>
 
-using love::graphics::opengl::Graphics;
+using love::Exception;
 using love::graphics::Drawable;
 using love::graphics::Image;
+using love::graphics::opengl::Canvas;
+using love::graphics::opengl::Graphics;
 using love::image::ImageData;
 
 static Graphics* _g = NULL;
@@ -60,6 +62,37 @@ WRAP_FUNCTION(clear)
 WRAP_FUNCTION(present)
 {
     _g->present();
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(newCanvas)
+{
+    // TODO: overloads:
+    //   - int width, int height
+    //   - string filename
+    //   - file file
+
+    if (argCount == 2) {
+        double width = JSLGetNumber(ctx, args[0]);
+        double height = JSLGetNumber(ctx, args[1]);
+
+        glGetError(); // clear opengl error flag
+
+        Canvas* canvas = NULL;
+
+        try {
+            canvas = _g->newCanvas(width, height);
+        } catch (Exception& e) {
+            printf("ERROR: Couldn't create canvas: %s\n", e.what());
+            goto undefined;
+        }
+
+        JSObjectRef obj = JSLCreateObject(ctx, canvas,
+                                          love::GRAPHICS_CANVAS_T);
+        return obj;
+    }
+
+undefined:
     return JSValueMakeUndefined(ctx);
 }
 
@@ -122,7 +155,7 @@ WRAP_FUNCTION(newImage)
     if (argCount == 1) {
         JSObjectRef arg0 = JSValueToObject(ctx, args[0], NULL);
 
-        if (not JSLObjectIsA(arg0, love::IMAGE_IMAGE_DATA_T)) {
+        if (not JSLObjectIsA<Image>(arg0)) {
             printf("ERROR: Invalid image data\n");
             goto undefined;
         }
@@ -146,7 +179,6 @@ undefined:
     return JSValueMakeUndefined(ctx);
 }
 
-
 WRAP_FUNCTION(setCaption)
 {
     if (argCount == 1) {
@@ -154,6 +186,18 @@ WRAP_FUNCTION(setCaption)
         _g->setCaption(caption.c_str());
     }
     return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(getWidth)
+{
+    int width = _g->getWidth();
+    return JSValueMakeNumber(ctx, width);
+}
+
+WRAP_FUNCTION(getHeight)
+{
+    int height = _g->getHeight();
+    return JSValueMakeNumber(ctx, height);
 }
 
 WRAP_MODULE(graphics)
@@ -187,7 +231,7 @@ WRAP_MODULE(graphics)
 //    "newImageFont"
 //    "newSpriteBatch"
 //    "newParticleSystem"
-//    "newCanvas"
+    JSLAddFunction(ctx, obj, "newCanvas", newCanvas);
 //    "newPixelEffect"
 
     JSLAddFunction(ctx, obj, "setColor", setColor);
@@ -237,8 +281,8 @@ WRAP_MODULE(graphics)
 
 //    "setIcon"
 
-//    "getWidth"
-//    "getHeight"
+    JSLAddFunction(ctx, obj, "getWidth", getWidth);
+    JSLAddFunction(ctx, obj, "getHeight", getHeight);
 
 //    "isCreated"
 

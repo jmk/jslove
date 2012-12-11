@@ -75,8 +75,7 @@ struct _JSLTypeTraits
     const JSLTypeId _JSLTypeTraits<T>::typeId = typeId_;  \
     const std::string _JSLTypeTraits<T>::name = #T;
 
-// XXX: TEMP
-bool JSLObjectIsA(JSObjectRef obj, love::bits t);
+//bool JSLObjectIsA(JSObjectRef obj, JSLTypeId t);
 
 template <typename T>
 bool JSLObjectIsA(JSObjectRef obj)
