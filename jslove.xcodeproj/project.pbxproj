@@ -227,7 +227,6 @@
 		968801F8162A41E700309623 = {
 			isa = PBXGroup;
 			children = (
-				968807FB162B96D700309623 /* OpenGL.framework */,
 				9688020D162A41E700309623 /* Source */,
 				96880427162A8D5800309623 /* Love */,
 				96880206162A41E700309623 /* Frameworks */,
@@ -248,6 +247,7 @@
 			children = (
 				96880207162A41E700309623 /* Cocoa.framework */,
 				968806DB162AAE3200309623 /* JavaScriptCore.framework */,
+				968807FB162B96D700309623 /* OpenGL.framework */,
 				96880209162A41E700309623 /* Other Frameworks */,
 			);
 			name = Frameworks;
