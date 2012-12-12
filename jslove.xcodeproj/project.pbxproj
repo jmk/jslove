@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9618D4AF163BC2B800AFD8A9 /* wrapEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618D4AD163BC2B800AFD8A9 /* wrapEvent.cpp */; };
 		9618D4B6163FA3C300AFD8A9 /* JSLPrivateAccess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618D4B4163FA3C300AFD8A9 /* JSLPrivateAccess.cpp */; };
+		967D705916788194004EF127 /* wrapGraphics_Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D705816788194004EF127 /* wrapGraphics_Image.cpp */; };
+		967D705C1678850C004EF127 /* wrapGraphics_Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D705B1678850C004EF127 /* wrapGraphics_Quad.cpp */; };
 		96880208162A41E700309623 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96880207162A41E700309623 /* Cocoa.framework */; };
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
@@ -77,6 +79,8 @@
 		9618D4AD163BC2B800AFD8A9 /* wrapEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapEvent.cpp; sourceTree = "<group>"; };
 		9618D4B4163FA3C300AFD8A9 /* JSLPrivateAccess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSLPrivateAccess.cpp; sourceTree = "<group>"; };
 		9618D4B5163FA3C300AFD8A9 /* JSLPrivateAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSLPrivateAccess.h; sourceTree = "<group>"; };
+		967D705816788194004EF127 /* wrapGraphics_Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapGraphics_Image.cpp; sourceTree = "<group>"; };
+		967D705B1678850C004EF127 /* wrapGraphics_Quad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapGraphics_Quad.cpp; sourceTree = "<group>"; };
 		96880203162A41E700309623 /* jslove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jslove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96880207162A41E700309623 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9688020A162A41E700309623 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -449,6 +453,8 @@
 			isa = PBXGroup;
 			children = (
 				9688079F162B88ED00309623 /* wrapGraphics.cpp */,
+				967D705816788194004EF127 /* wrapGraphics_Image.cpp */,
+				967D705B1678850C004EF127 /* wrapGraphics_Quad.cpp */,
 			);
 			path = graphics;
 			sourceTree = "<group>";
@@ -747,6 +753,8 @@
 				96880885162BDD3D00309623 /* Variant.cpp in Sources */,
 				9618D4AF163BC2B800AFD8A9 /* wrapEvent.cpp in Sources */,
 				9618D4B6163FA3C300AFD8A9 /* JSLPrivateAccess.cpp in Sources */,
+				967D705916788194004EF127 /* wrapGraphics_Image.cpp in Sources */,
+				967D705C1678850C004EF127 /* wrapGraphics_Quad.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

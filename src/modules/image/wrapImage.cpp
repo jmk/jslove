@@ -40,8 +40,7 @@ WRAP_FUNCTION(newImageData)
             goto undefined;
         }
 
-        JSObjectRef obj = JSLCreateObject(ctx, imageData,
-                                          love::IMAGE_IMAGE_DATA_T);
+        JSObjectRef obj = JSLCreateObject(ctx, imageData);
         return obj;
     }
 

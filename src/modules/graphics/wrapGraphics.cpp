@@ -1,23 +1,33 @@
 #include "WrapUtils.h"
 
 #include <common/types.h>
+#include <filesystem/physfs/File.h>
+#include <filesystem/File.h>
 #include <graphics/opengl/Graphics.h>
 #include <graphics/Drawable.h>
 #include <graphics/Image.h>
+#include <image/devil/ImageData.h>
 #include <image/ImageData.h>
 
 using love::Exception;
+using love::filesystem::File;
 using love::graphics::Drawable;
+using love::graphics::DrawQable;
 using love::graphics::Image;
+using love::graphics::Quad;
 using love::graphics::opengl::Canvas;
 using love::graphics::opengl::Graphics;
 using love::image::ImageData;
 
 static Graphics* _g = NULL;
 
-DECLARE_TYPE(Drawable,  love::GRAPHICS_DRAWABLE_T);
-DECLARE_TYPE(Image,     love::GRAPHICS_IMAGE_T);
-//DECLARE_TYPE(ImageData, love::IMAGE_IMAGE_DATA_T);
+// XXX: These should be wrapped as classes.
+DECLARE_TYPE(Canvas,   love::GRAPHICS_CANVAS_T);
+DECLARE_TYPE(Drawable, love::GRAPHICS_DRAWABLE_T);
+DECLARE_TYPE(DrawQable, love::GRAPHICS_DRAWQABLE_T);
+
+DECLARE_CLASS(Image,    love::GRAPHICS_IMAGE_T);
+DECLARE_CLASS(Quad,     love::GRAPHICS_QUAD_T);
 
 WRAP_FUNCTION(checkMode)
 {
@@ -87,8 +97,7 @@ WRAP_FUNCTION(newCanvas)
             goto undefined;
         }
 
-        JSObjectRef obj = JSLCreateObject(ctx, canvas,
-                                          love::GRAPHICS_CANVAS_T);
+        JSObjectRef obj = JSLCreateObject(ctx, canvas);
         return obj;
     }
 
@@ -126,41 +135,100 @@ WRAP_FUNCTION(setBackgroundColor)
 
 WRAP_FUNCTION(draw)
 {
-    if (argCount == 10) {
+    if (argCount >= 3 and argCount <= 10) {
         Drawable* drawable = JSLExtractObject<Drawable>(ctx, args[0]);
 
         if (drawable) {
-            float x = JSLGetNumber(ctx, args[1]);
-            float y = JSLGetNumber(ctx, args[2]);
-            float angle = JSLGetNumber(ctx, args[3]);
-            float sx = JSLGetNumber(ctx, args[4]);
-            float sy = JSLGetNumber(ctx, args[5]);
-            float ox = JSLGetNumber(ctx, args[6]);
-            float oy = JSLGetNumber(ctx, args[7]);
-            float kx = JSLGetNumber(ctx, args[8]);
-            float ky = JSLGetNumber(ctx, args[9]);
+            float x  = JSLGetNumber(ctx, args[1]);
+            float y  = JSLGetNumber(ctx, args[2]);
 
-            drawable->draw(x, y, angle, sx, sy, ox, oy, kx, ky);
+            // Optional args.
+            float r  = (argCount > 3) ? JSLGetNumber(ctx, args[3]) : 0.0;
+            float sx = (argCount > 4) ? JSLGetNumber(ctx, args[4]) : 1.0;
+            float sy = (argCount > 5) ? JSLGetNumber(ctx, args[5]) : sx;
+            float ox = (argCount > 6) ? JSLGetNumber(ctx, args[6]) : 0.0;
+            float oy = (argCount > 7) ? JSLGetNumber(ctx, args[7]) : 0.0;
+            float kx = (argCount > 8) ? JSLGetNumber(ctx, args[8]) : 0.0;
+            float ky = (argCount > 9) ? JSLGetNumber(ctx, args[9]) : 0.0;
+
+            drawable->draw(x, y, r, sx, sy, ox, oy, kx, ky);
         }
+    } else {
+        printf("ERROR: Invalid arguments to draw()\n");
     }
+
     return JSValueMakeUndefined(ctx);
 }
+
+WRAP_FUNCTION(drawq)
+{
+    if (argCount == 9 or argCount == 11) {
+        DrawQable* drawqable = JSLExtractObject<DrawQable>(ctx, args[0]);
+        Quad* quad = JSLExtractObject<Quad>(ctx, args[1]);
+
+        if (drawqable) {
+            float x  = JSLGetNumber(ctx, args[2]);
+            float y  = JSLGetNumber(ctx, args[3]);
+
+            // Optional args.
+            float r  = (argCount > 4) ? JSLGetNumber(ctx, args[4]) : 0.0;
+            float sx = (argCount > 5) ? JSLGetNumber(ctx, args[5]) : 1.0;
+            float sy = (argCount > 6) ? JSLGetNumber(ctx, args[6]) : sx;
+            float ox = (argCount > 7) ? JSLGetNumber(ctx, args[7]) : 0.0;
+            float oy = (argCount > 8) ? JSLGetNumber(ctx, args[8]) : 0.0;
+            float kx = (argCount > 9) ? JSLGetNumber(ctx, args[9]) : 0.0;
+            float ky = (argCount > 10) ? JSLGetNumber(ctx, args[10]) : 0.0;
+
+            drawqable->drawq(quad, x, y, r, sx, sy, ox, oy, kx, ky);
+        }
+    } else {
+        printf("ERROR: Invalid arguments to drawq()\n");
+    }
+
+    return JSValueMakeUndefined(ctx);
+}
+//image, quad, x, y, r, sx, sy, ox, oy, kx, ky
 
 WRAP_FUNCTION(newImage)
 {
     // TODO: overloads:
-    //   - string filename
-    //   - file file
+    //   - file object
 
     if (argCount == 1) {
         JSObjectRef arg0 = JSValueToObject(ctx, args[0], NULL);
+        ImageData* imageData = NULL;
 
-        if (not JSLObjectIsA<Image>(arg0)) {
-            printf("ERROR: Invalid image data\n");
+        if (JSLObjectIsA<ImageData>(arg0)) {
+            // Argument is image data; use it directly.
+            imageData = JSLExtractObject<ImageData>(arg0);
+        } else {
+            // Argument is other type; attempt to create file object to read
+            // into image data.
+            File* file = NULL;
+
+            if (JSLObjectIsA<File>(arg0)) {
+                file = JSLExtractObject<File>(arg0);
+            } else if (JSValueIsString(ctx, args[0])) {
+                // If a string was passed in, open as file object.
+                std::string filename = JSLGetString(ctx, args[0]);
+                file = new love::filesystem::physfs::File(filename);
+            }
+
+            else printf("WHAT ARE YOUUUU?\n");
+
+            if (not file) {
+                printf("ERROR: Invalid argument type to newImage()\n");
+                goto undefined;
+            }
+
+            imageData = new love::image::devil::ImageData(file);
+        }
+
+        if (not imageData) {
+            printf("ERROR: Failed to create image data\n");
             goto undefined;
         }
 
-        ImageData* imageData = JSLExtractObject<ImageData>(arg0);
         Image* image = NULL;
 
         try {
@@ -170,8 +238,35 @@ WRAP_FUNCTION(newImage)
             goto undefined;
         }
 
-        JSObjectRef obj = JSLCreateObject(ctx, image,
-                                          love::GRAPHICS_IMAGE_T);
+        JSObjectRef obj = JSLCreateObject(ctx, image);
+        return obj;
+    }
+
+undefined:
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(newQuad)
+{
+    //x, y, width, height, sw, sh
+    if (argCount == 6) {
+        float x  = JSLGetNumber(ctx, args[0]);
+        float y  = JSLGetNumber(ctx, args[1]);
+        float w  = JSLGetNumber(ctx, args[2]);
+        float h  = JSLGetNumber(ctx, args[3]);
+        float sw = JSLGetNumber(ctx, args[4]);
+        float sh = JSLGetNumber(ctx, args[5]);
+
+        Quad* quad = NULL;
+
+        try {
+            quad = _g->newQuad(x, y, w, h, sw, sh);
+        } catch (Exception& e) {
+            printf("ERROR: Couldn't create quad: %s\n", e.what());
+            goto undefined;
+        }
+
+        JSObjectRef obj = JSLCreateObject(ctx, quad);
         return obj;
     }
 
@@ -200,6 +295,18 @@ WRAP_FUNCTION(getHeight)
     return JSValueMakeNumber(ctx, height);
 }
 
+WRAP_FUNCTION(push)
+{
+    _g->push();
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(pop)
+{
+    _g->pop();
+    return JSValueMakeUndefined(ctx);
+}
+
 WRAP_MODULE(graphics)
 {
     printf("INIT graphics\n");
@@ -226,7 +333,7 @@ WRAP_MODULE(graphics)
     JSLAddFunction(ctx, obj, "present", present);
 
     JSLAddFunction(ctx, obj, "newImage", newImage);
-//    "newQuad"
+    JSLAddFunction(ctx, obj, "newQuad", newQuad);
 //    "newFont1"
 //    "newImageFont"
 //    "newSpriteBatch"
@@ -269,7 +376,7 @@ WRAP_MODULE(graphics)
 //    "isSupported"
 
     JSLAddFunction(ctx, obj, "draw", draw);
-//    "drawq"
+    JSLAddFunction(ctx, obj, "drawq", drawq);
 //    "drawTest"
 
 //    "print1"
@@ -305,8 +412,8 @@ WRAP_MODULE(graphics)
 
 //    "polygon"
 
-//    "push"
-//    "pop"
+    JSLAddFunction(ctx, obj, "push", push);
+    JSLAddFunction(ctx, obj, "pop", pop);
 //    "rotate"
 //    "scale"
 //    "translate"

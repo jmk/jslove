@@ -105,17 +105,17 @@ JSObjectRef JSLCreateObject(JSContextRef ctx)
     return JSObjectMake(ctx, cls, /* data */ NULL);
 }
 
-JSObjectRef JSLCreateObject(JSContextRef ctx, void* data, JSLTypeId typeId)
-{
-    JSObjectRef obj = JSLCreateObject(ctx);
-    if (obj and data) {
-        _JSLObjectProxy* proxy = new _JSLObjectProxy(data, typeId);
-        bool success = JSObjectSetPrivate(obj, proxy);
-
-        if (not success) {
-            printf("ERROR: Failed to set private data\n");
-        }
-    }
-
-    return obj;
-}
+//JSObjectRef JSLCreateObject(JSContextRef ctx, void* data, JSLTypeId typeId)
+//{
+//    JSObjectRef obj = JSLCreateObject(ctx);
+//    if (obj and data) {
+//        _JSLObjectProxy* proxy = new _JSLObjectProxy(data, typeId);
+//        bool success = JSObjectSetPrivate(obj, proxy);
+//
+//        if (not success) {
+//            printf("ERROR: Failed to set private data\n");
+//        }
+//    }
+//
+//    return obj;
+//}

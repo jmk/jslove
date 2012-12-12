@@ -1,13 +1,18 @@
 #include "WrapUtils.h"
 
 #include <common/types.h>
+#include <filesystem/File.h>
 #include <filesystem/FileData.h>
 #include <filesystem/physfs/Filesystem.h>
 
 using love::Exception;
 using love::Type;
+using love::filesystem::File;
 using love::filesystem::FileData;
 using love::filesystem::physfs::Filesystem;
+
+DECLARE_TYPE(File,     love::FILESYSTEM_FILE_T);
+DECLARE_TYPE(FileData, love::FILESYSTEM_FILE_DATA_T);
 
 static Filesystem* _f = NULL;
 
@@ -102,26 +107,25 @@ WRAP_FUNCTION(newFileData)
             FileData::getConstant(decoder.c_str(), decoderType);
         }
 
-        FileData* data = NULL;
+        FileData* fileData = NULL;
 
         switch (decoderType) {
             case FileData::FILE:
-                data = _f->newFileData((void*) contents.c_str(),
-                                       contents.length(),
-                                       name.c_str());
+                fileData = _f->newFileData((void*) contents.c_str(),
+                                           contents.length(),
+                                           name.c_str());
                 break;
             case FileData::BASE64:
-                data = _f->newFileData(contents.c_str(),
-                                       name.c_str());
+                fileData = _f->newFileData(contents.c_str(),
+                                           name.c_str());
                 break;
             default:
                 printf("ERROR: Unknown file decoder: '%s'", decoder.c_str());
                 goto undefined;
         }
 
-        if (data) {
-            JSObjectRef obj = JSLCreateObject(ctx, data,
-                                              love::FILESYSTEM_FILE_DATA_T);
+        if (fileData) {
+            JSObjectRef obj = JSLCreateObject(ctx, fileData);
             return obj;
         }
     }

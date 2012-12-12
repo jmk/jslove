@@ -4,6 +4,7 @@
 #include <JavaScriptCore/JavaScript.h>
 
 #include <string>
+#include <typeinfo>
 
 //
 // General utilities
@@ -75,8 +76,6 @@ struct _JSLTypeTraits
     const JSLTypeId _JSLTypeTraits<T>::typeId = typeId_;  \
     const std::string _JSLTypeTraits<T>::name = #T;
 
-//bool JSLObjectIsA(JSObjectRef obj, JSLTypeId t);
-
 template <typename T>
 bool JSLObjectIsA(JSObjectRef obj)
 {
@@ -115,11 +114,50 @@ T* JSLExtractObject(JSContextRef ctx, JSValueRef val)
 // Class/instance utilities
 //
 
-#define WRAP_CLASS(name)               \
-    JSValueRef __wrap_class ## name (  \
-        JSContextRef ctx)
+template <typename T>
+static void _JSLInitInstance(JSContextRef ctx, JSObjectRef self)
+{
+    // XXX: This will print out non-portable type names.
+    printf("ERROR: No wrapper declared for type: %s\n", typeid(T).name());
+}
+
+#define WRAP_CLASS(name)                \
+    JSValueRef __wrap_class_ ## name (  \
+        JSContextRef ctx,               \
+        JSObjectRef self)
+
+#define PARENT_CLASS(name) \
+    __wrap_class_ ## name (ctx, self);
+
+#define DECLARE_CLASS(T, typeId_)              \
+    /* Forward declaration */                  \
+    WRAP_CLASS(T);                             \
+    DECLARE_TYPE(T, typeId_);                  \
+    template <>                                \
+    void _JSLInitInstance<T>(                  \
+        JSContextRef ctx, JSObjectRef self) {  \
+        __wrap_class_ ## T (ctx, self);         \
+    }
 
 JSObjectRef JSLCreateObject(JSContextRef ctx);
-JSObjectRef JSLCreateObject(JSContextRef ctx, void* data, JSLTypeId typeId);
+
+template <typename T>
+JSObjectRef JSLCreateObject(JSContextRef ctx, T* data)
+{
+    JSLTypeId typeId = _JSLTypeTraits<T>::typeId;
+    JSObjectRef obj = JSLCreateObject(ctx);
+    if (obj and data) {
+        _JSLObjectProxy* proxy = new _JSLObjectProxy(data, typeId);
+        bool success = JSObjectSetPrivate(obj, proxy);
+
+        if (success) {
+            _JSLInitInstance<T>(ctx, obj);
+        } else {
+            printf("ERROR: Failed to set private data\n");
+        }
+    }
+
+    return obj;
+}
 
 #endif
