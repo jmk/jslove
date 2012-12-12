@@ -2,7 +2,7 @@
 
 JSLove is a JavaScript port of the [LÖVE](https://love2d.org) game engine.
 
-Combining LÖVE with JavaScript sets the stage for some interesting possibilities: 
+Combining LÖVE with JavaScript sets the stage for some interesting possibilities in the future: 
 
 * A more direct path for deploying LÖVE games on the web. Currently, the [LÖVE WebPlayer project](https://github.com/ghoulsblade/love-webplayer) must convert Lua code into JavaScript.
 
@@ -20,7 +20,6 @@ JSLove has the same external dependencies as LÖVE. To build from source, you mu
 * [PhysicsFS](http://icculus.org/physfs/)
 * [FreeType](http://www.freetype.org/)
 * [DevIL](http://openil.sourceforge.net/)
-* JavaScriptCore
 
 The included Xcode project assumes that these libraries have been installed via the [Homebrew package manager](http://mxcl.github.com/homebrew/) (i.e., in `/usr/local`).
 
