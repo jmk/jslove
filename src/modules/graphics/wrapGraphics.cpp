@@ -22,10 +22,10 @@ using love::image::ImageData;
 static Graphics* _g = NULL;
 
 // XXX: These should be wrapped as classes.
-DECLARE_TYPE(Canvas,   love::GRAPHICS_CANVAS_T);
 DECLARE_TYPE(Drawable, love::GRAPHICS_DRAWABLE_T);
 DECLARE_TYPE(DrawQable, love::GRAPHICS_DRAWQABLE_T);
 
+DECLARE_CLASS(Canvas,   love::GRAPHICS_CANVAS_T);
 DECLARE_CLASS(Image,    love::GRAPHICS_IMAGE_T);
 DECLARE_CLASS(Quad,     love::GRAPHICS_QUAD_T);
 
@@ -78,9 +78,8 @@ WRAP_FUNCTION(present)
 WRAP_FUNCTION(newCanvas)
 {
     // TODO: overloads:
-    //   - int width, int height
-    //   - string filename
-    //   - file file
+    //   - filename string
+    //   - file
 
     if (argCount == 2) {
         double width = JSLGetNumber(ctx, args[0]);
@@ -157,6 +156,45 @@ WRAP_FUNCTION(draw)
         printf("ERROR: Invalid arguments to draw()\n");
     }
 
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(setCanvas)
+{
+    // Discard stencil testing.
+    _g->discardStencil();
+
+    if (argCount == 0) {
+        // If called with no args, reset to default buffer.
+        Canvas::bindDefaultCanvas();
+    } else if (argCount == 1) {
+        // If called with null, reset to default buffer.
+        if (JSValueIsUndefined(ctx, args[0])) {
+            Canvas::bindDefaultCanvas();
+        } else {
+            Canvas* canvas = JSLExtractObject<Canvas>(ctx, args[0]);
+            if (canvas) {
+                // This unbinds the previous FBO.
+                canvas->startGrab();
+            }
+        }
+    }
+
+undefined:
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(getCanvas)
+{
+    Canvas* canvas = Canvas::current;
+
+    if (canvas) {
+        canvas->retain();
+        JSObjectRef obj = JSLCreateObject(ctx, canvas);
+        return obj;
+    }
+
+undefined:
     return JSValueMakeUndefined(ctx);
 }
 
@@ -369,9 +407,9 @@ WRAP_MODULE(graphics)
 //    "getPointStyle"
 //    "getMaxPointSize"
 //    "newScreenshot"
-//    "setCanvas"
-//    "getCanvas"
 
+    JSLAddFunction(ctx, obj, "setCanvas", setCanvas);
+    JSLAddFunction(ctx, obj, "getCanvas", getCanvas);
 //    "setPixelEffect"
 //    "getPixelEffect"
 
