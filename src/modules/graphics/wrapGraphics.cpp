@@ -162,11 +162,11 @@ WRAP_FUNCTION(draw)
 
 WRAP_FUNCTION(drawq)
 {
-    if (argCount == 9 or argCount == 11) {
+    if (argCount >= 3 and argCount <= 11) {
         DrawQable* drawqable = JSLExtractObject<DrawQable>(ctx, args[0]);
         Quad* quad = JSLExtractObject<Quad>(ctx, args[1]);
 
-        if (drawqable) {
+        if (drawqable and quad) {
             float x  = JSLGetNumber(ctx, args[2]);
             float y  = JSLGetNumber(ctx, args[3]);
 
@@ -180,6 +180,8 @@ WRAP_FUNCTION(drawq)
             float ky = (argCount > 10) ? JSLGetNumber(ctx, args[10]) : 0.0;
 
             drawqable->drawq(quad, x, y, r, sx, sy, ox, oy, kx, ky);
+        } else {
+            printf("ERROR: Invalid quad\n");
         }
     } else {
         printf("ERROR: Invalid arguments to drawq()\n");
