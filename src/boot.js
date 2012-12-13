@@ -202,6 +202,7 @@ love.init = function() {
     love.event      = __init_event();
     love.graphics   = __init_graphics();
     love.image      = __init_image();
+    love.keyboard   = __init_keyboard();
     love.timer      = __init_timer();
 
     if (love.event) {

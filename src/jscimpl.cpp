@@ -22,9 +22,10 @@
     }
 
 DECLARE_MODULE(event);
-DECLARE_MODULE(image);
 DECLARE_MODULE(filesystem);
 DECLARE_MODULE(graphics);
+DECLARE_MODULE(image);
+DECLARE_MODULE(keyboard);
 DECLARE_MODULE(timer);
 
 static std::string
@@ -219,11 +220,12 @@ InitContext(JSContextRef ctx)
     SetGlobalFunction(ctx, "require", Require);
 
     // Module initializers
-    SetGlobalFunction(ctx, "__init_event", __init_event);
+    SetGlobalFunction(ctx, "__init_event",      __init_event);
     SetGlobalFunction(ctx, "__init_filesystem", __init_filesystem);
-    SetGlobalFunction(ctx, "__init_graphics", __init_graphics);
-    SetGlobalFunction(ctx, "__init_image", __init_image);
-    SetGlobalFunction(ctx, "__init_timer", __init_timer);
+    SetGlobalFunction(ctx, "__init_graphics",   __init_graphics);
+    SetGlobalFunction(ctx, "__init_image",      __init_image);
+    SetGlobalFunction(ctx, "__init_keyboard",   __init_keyboard);
+    SetGlobalFunction(ctx, "__init_timer",      __init_timer);
 }
 
 static void
