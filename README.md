@@ -1,6 +1,6 @@
 ## JSLove ##
 
-JSLove is a port of the [LÖVE](https://love2d.org) 2D game engine which supports JavaScript (instead of Lua). It's still a native binary that runs on the desktop.
+JSLove is a port of the [LÖVE](https://love2d.org) 2D game engine which uses JavaScript as its primary language instead of Lua. It's still a native binary that runs on the desktop, not an implementation that runs inside of a browser.
 
 Combining LÖVE with JavaScript also sets the stage for some interesting possibilities in the future: 
 
