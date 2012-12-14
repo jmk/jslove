@@ -437,7 +437,6 @@ WRAP_FUNCTION(newFont)
 
             // Read font data from disk.
             try {
-                printf("************ reading file!\n");
                 data = file->read();
             } catch (love::Exception& e) {
                 printf("ERROR: Couldn't read font: %s\n",
