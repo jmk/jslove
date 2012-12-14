@@ -1,33 +1,42 @@
 #include "WrapUtils.h"
 
+#include <common/Data.h>
 #include <common/types.h>
 #include <filesystem/physfs/File.h>
 #include <filesystem/File.h>
+#include <font/freetype/Font.h>
+#include <font/Rasterizer.h>
+#include <graphics/opengl/Font.h>
 #include <graphics/opengl/Graphics.h>
 #include <graphics/Drawable.h>
 #include <graphics/Image.h>
 #include <image/devil/ImageData.h>
 #include <image/ImageData.h>
 
+using love::Data;
 using love::Exception;
 using love::filesystem::File;
+using love::font::Rasterizer;
 using love::graphics::Drawable;
 using love::graphics::DrawQable;
 using love::graphics::Image;
 using love::graphics::Quad;
 using love::graphics::opengl::Canvas;
+using love::graphics::opengl::Font;
 using love::graphics::opengl::Graphics;
 using love::image::ImageData;
 
 static Graphics* _g = NULL;
 
 // XXX: These should be wrapped as classes.
-DECLARE_TYPE(Drawable, love::GRAPHICS_DRAWABLE_T);
+DECLARE_TYPE(Drawable,  love::GRAPHICS_DRAWABLE_T);
 DECLARE_TYPE(DrawQable, love::GRAPHICS_DRAWQABLE_T);
 
-DECLARE_CLASS(Canvas,   love::GRAPHICS_CANVAS_T);
-DECLARE_CLASS(Image,    love::GRAPHICS_IMAGE_T);
-DECLARE_CLASS(Quad,     love::GRAPHICS_QUAD_T);
+DECLARE_CLASS(Canvas,     love::GRAPHICS_CANVAS_T);
+DECLARE_CLASS(Font,       love::GRAPHICS_FONT_T);
+DECLARE_CLASS(Image,      love::GRAPHICS_IMAGE_T);
+DECLARE_CLASS(Quad,       love::GRAPHICS_QUAD_T);
+DECLARE_CLASS(Rasterizer, love::FONT_RASTERIZER_T);
 
 WRAP_FUNCTION(checkMode)
 {
@@ -132,14 +141,40 @@ WRAP_FUNCTION(setBackgroundColor)
     return JSValueMakeUndefined(ctx);
 }
 
+WRAP_FUNCTION(setFont)
+{
+    if (argCount == 1) {
+        Font* font = JSLExtractObject<Font>(ctx, args[0]);
+        if (font) {
+            _g->setFont(font);
+        }
+    } else {
+        printf("ERROR: Invalid font\n");
+    }
+
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(getFont)
+{
+    Font* font = _g->getFont();
+
+    if (font) {
+        font->retain();
+        return JSLCreateObject(ctx, font);
+    } else {
+        return JSValueMakeUndefined(ctx);
+    }
+}
+
 WRAP_FUNCTION(draw)
 {
     if (argCount >= 3 and argCount <= 10) {
         Drawable* drawable = JSLExtractObject<Drawable>(ctx, args[0]);
 
         if (drawable) {
-            float x  = JSLGetNumber(ctx, args[1]);
-            float y  = JSLGetNumber(ctx, args[2]);
+            float x = JSLGetNumber(ctx, args[1]);
+            float y = JSLGetNumber(ctx, args[2]);
 
             // Optional args.
             float r  = (argCount > 3) ? JSLGetNumber(ctx, args[3]) : 0.0;
@@ -190,8 +225,7 @@ WRAP_FUNCTION(getCanvas)
 
     if (canvas) {
         canvas->retain();
-        JSObjectRef obj = JSLCreateObject(ctx, canvas);
-        return obj;
+        return JSLCreateObject(ctx, canvas);
     }
 
 undefined:
@@ -205,8 +239,8 @@ WRAP_FUNCTION(drawq)
         Quad* quad = JSLExtractObject<Quad>(ctx, args[1]);
 
         if (drawqable and quad) {
-            float x  = JSLGetNumber(ctx, args[2]);
-            float y  = JSLGetNumber(ctx, args[3]);
+            float x = JSLGetNumber(ctx, args[2]);
+            float y = JSLGetNumber(ctx, args[3]);
 
             // Optional args.
             float r  = (argCount > 4) ? JSLGetNumber(ctx, args[4]) : 0.0;
@@ -227,7 +261,62 @@ WRAP_FUNCTION(drawq)
 
     return JSValueMakeUndefined(ctx);
 }
-//image, quad, x, y, r, sx, sy, ox, oy, kx, ky
+
+WRAP_FUNCTION(print)
+{
+    // text, x, y, r, sx, sy, ox, oy, kx, ky
+    if (argCount >= 3 and argCount <= 10) {
+        std::string text = JSLGetString(ctx, args[0]);
+        float x = JSLGetNumber(ctx, args[1]);
+        float y = JSLGetNumber(ctx, args[2]);
+
+        // Optional args.
+        float r  = (argCount > 3) ? JSLGetNumber(ctx, args[3]) : 0.0;
+        float sx = (argCount > 4) ? JSLGetNumber(ctx, args[4]) : 1.0;
+        float sy = (argCount > 5) ? JSLGetNumber(ctx, args[5]) : sx;
+        float ox = (argCount > 6) ? JSLGetNumber(ctx, args[6]) : 0.0;
+        float oy = (argCount > 7) ? JSLGetNumber(ctx, args[7]) : 0.0;
+        float kx = (argCount > 8) ? JSLGetNumber(ctx, args[8]) : 0.0;
+        float ky = (argCount > 9) ? JSLGetNumber(ctx, args[9]) : 0.0;
+
+        try {
+            _g->print(text.c_str(), x, y, r, sx, sy, ox, oy, kx, ky);
+        } catch (love::Exception& e) {
+            printf("ERROR: Decoding error: %s", e.what());
+        }
+    }
+
+    return JSValueMakeUndefined(ctx);
+}
+
+WRAP_FUNCTION(printf)
+{
+    if (argCount >= 4 and argCount <= 5) {
+        std::string text = JSLGetString(ctx, args[0]);
+        float x = JSLGetNumber(ctx, args[1]);
+        float y = JSLGetNumber(ctx, args[2]);
+        float limit = JSLGetNumber(ctx, args[3]);
+
+        Graphics::AlignMode align = Graphics::ALIGN_LEFT;
+
+        if (argCount == 5) {
+            std::string alignStr = JSLGetString(ctx, args[4]);
+            if (not Graphics::getConstant(alignStr.c_str(), align)) {
+                printf("ERROR: Invalid alignment: '%s'\n", alignStr.c_str());
+                goto undefined;
+            }
+        }
+
+        try {
+            _g->printf(text.c_str(), x, y, limit, align);
+        } catch (love::Exception& e) {
+            printf("ERROR: Decoding error: %s", e.what());
+        }
+    }
+
+undefined:
+    return JSValueMakeUndefined(ctx);
+}
 
 WRAP_FUNCTION(newImage)
 {
@@ -253,8 +342,6 @@ WRAP_FUNCTION(newImage)
                 std::string filename = JSLGetString(ctx, args[0]);
                 file = new love::filesystem::physfs::File(filename);
             }
-
-            else printf("WHAT ARE YOUUUU?\n");
 
             if (not file) {
                 printf("ERROR: Invalid argument type to newImage()\n");
@@ -306,11 +393,95 @@ WRAP_FUNCTION(newQuad)
             goto undefined;
         }
 
-        JSObjectRef obj = JSLCreateObject(ctx, quad);
-        return obj;
+        return JSLCreateObject(ctx, quad);
     }
 
 undefined:
+    return JSValueMakeUndefined(ctx);
+}
+
+// XXX
+extern love::font::freetype::Font* _GetGlobalFontHack();
+
+WRAP_FUNCTION(newFont)
+{
+    Data* data = NULL;
+
+    // TODO overloads:
+    //   - file, (size)
+    //   - data, (size)
+
+    if (argCount >= 1) {
+        JSObjectRef arg0 = JSValueToObject(ctx, args[0], NULL);
+
+        if (JSLObjectIsA<Data>(arg0)) {
+            // Argument is image data; use it directly.
+            data = JSLExtractObject<Data>(arg0);
+        } else {
+            // Argument is other type; attempt to create file object to read
+            // into image data.
+            File* file = NULL;
+
+            if (JSLObjectIsA<File>(arg0)) {
+                file = JSLExtractObject<File>(arg0);
+            } else if (JSValueIsString(ctx, args[0])) {
+                // If a string was passed in, open as file object.
+                std::string filename = JSLGetString(ctx, args[0]);
+                file = new love::filesystem::physfs::File(filename);
+            }
+
+            if (not file) {
+                printf("ERROR: Invalid argument type to newFont()\n");
+                goto undefined;
+            }
+
+            // Read font data from disk.
+            try {
+                printf("************ reading file!\n");
+                data = file->read();
+            } catch (love::Exception& e) {
+                printf("ERROR: Couldn't read font: %s\n",
+                       file->getFilename().c_str());
+                goto undefined;
+            }
+        }
+
+        if (not data) {
+            printf("ERROR: Invalid font data\n");
+            goto undefined;
+        }
+
+        int size = 12;  // Default as stated in docs.
+        if (argCount >= 2) {
+            size = JSLGetNumber(ctx, args[1], size);
+        }
+
+        love::font::freetype::Font* f = _GetGlobalFontHack();
+        if (not f) {
+            printf("ERROR: Font module not initialized\n");
+            goto undefined;
+        }
+
+        Rasterizer* rasterizer = f->newRasterizer(data, size);
+        if (not rasterizer) {
+            printf("ERROR: Failed to create font rasterizer\n");
+            goto undefined;
+        }
+
+        Font* font = _g->newFont(rasterizer);
+        if (not font) {
+            printf("ERROR: Couldn't create font\n");
+            goto undefined;
+        }
+
+        return JSLCreateObject(ctx, font);
+    }
+
+undefined:
+    if (data) {
+        data->release();
+    }
+
     return JSValueMakeUndefined(ctx);
 }
 
@@ -374,7 +545,7 @@ WRAP_MODULE(graphics)
 
     JSLAddFunction(ctx, obj, "newImage", newImage);
     JSLAddFunction(ctx, obj, "newQuad", newQuad);
-//    "newFont1"
+    JSLAddFunction(ctx, obj, "newFont", newFont);
 //    "newImageFont"
 //    "newSpriteBatch"
 //    "newParticleSystem"
@@ -386,8 +557,8 @@ WRAP_MODULE(graphics)
     JSLAddFunction(ctx, obj, "setBackgroundColor", setBackgroundColor);
 //    "getBackgroundColor"
 
-//    "setFont"
-//    "getFont"
+    JSLAddFunction(ctx, obj, "setFont", setFont);
+    JSLAddFunction(ctx, obj, "getFont", getFont);
 
 //    "setBlendMode"
 //    "setColorMode"
@@ -419,8 +590,8 @@ WRAP_MODULE(graphics)
     JSLAddFunction(ctx, obj, "drawq", drawq);
 //    "drawTest"
 
-//    "print1"
-//    "printf1"
+    JSLAddFunction(ctx, obj, "print", print);
+    JSLAddFunction(ctx, obj, "printf", printf);
 
 //    "setCaption"
     JSLAddFunction(ctx, obj, "setCaption", setCaption);

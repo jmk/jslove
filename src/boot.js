@@ -198,8 +198,9 @@ love.init = function() {
 //    }
 
     // Load requested modules.
-    // XXX: temp
+    // XXX: temporarily load ALL modules
     love.event      = __init_event();
+    love.font       = __init_font();
     love.graphics   = __init_graphics();
     love.image      = __init_image();
     love.keyboard   = __init_keyboard();

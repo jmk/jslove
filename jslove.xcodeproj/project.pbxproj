@@ -14,6 +14,10 @@
 		967D705F1679C1DC004EF127 /* wrapKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D705E1679C1DC004EF127 /* wrapKeyboard.cpp */; };
 		967D706D1679C503004EF127 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D70631679C503004EF127 /* Keyboard.cpp */; };
 		967D706F1679C503004EF127 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D70671679C503004EF127 /* Keyboard.cpp */; };
+		967D70721679CB55004EF127 /* wrapGraphics_Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D70711679CB55004EF127 /* wrapGraphics_Canvas.cpp */; };
+		967D7075167B1D95004EF127 /* wrapFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D7074167B1D95004EF127 /* wrapFont.cpp */; };
+		967D7077167B2057004EF127 /* wrapGraphics_Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D7076167B2057004EF127 /* wrapGraphics_Font.cpp */; };
+		967D7079167B2821004EF127 /* wrapFont_Rasterizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 967D7078167B2821004EF127 /* wrapFont_Rasterizer.cpp */; };
 		96880208162A41E700309623 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96880207162A41E700309623 /* Cocoa.framework */; };
 		96880212162A41E700309623 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96880210162A41E700309623 /* InfoPlist.strings */; };
 		96880218162A41E700309623 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96880216162A41E700309623 /* Credits.rtf */; };
@@ -89,6 +93,10 @@
 		967D70641679C503004EF127 /* Keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keyboard.h; sourceTree = "<group>"; };
 		967D70671679C503004EF127 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
 		967D70681679C503004EF127 /* Keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keyboard.h; sourceTree = "<group>"; };
+		967D70711679CB55004EF127 /* wrapGraphics_Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapGraphics_Canvas.cpp; sourceTree = "<group>"; };
+		967D7074167B1D95004EF127 /* wrapFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapFont.cpp; sourceTree = "<group>"; };
+		967D7076167B2057004EF127 /* wrapGraphics_Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapGraphics_Font.cpp; sourceTree = "<group>"; };
+		967D7078167B2821004EF127 /* wrapFont_Rasterizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrapFont_Rasterizer.cpp; sourceTree = "<group>"; };
 		96880203162A41E700309623 /* jslove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jslove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96880207162A41E700309623 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9688020A162A41E700309623 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -261,6 +269,15 @@
 				967D70681679C503004EF127 /* Keyboard.h */,
 			);
 			path = sdl;
+			sourceTree = "<group>";
+		};
+		967D7073167B1D64004EF127 /* font */ = {
+			isa = PBXGroup;
+			children = (
+				967D7074167B1D95004EF127 /* wrapFont.cpp */,
+				967D7078167B2821004EF127 /* wrapFont_Rasterizer.cpp */,
+			);
+			path = font;
 			sourceTree = "<group>";
 		};
 		968801F8162A41E700309623 = {
@@ -468,10 +485,11 @@
 			isa = PBXGroup;
 			children = (
 				9618D4AB163BC2B800AFD8A9 /* event */,
+				96880791162B88AC00309623 /* filesystem */,
+				967D7073167B1D64004EF127 /* font */,
+				96880794162B88AC00309623 /* graphics */,
 				96880871162BA53000309623 /* image */,
 				967D705D1679C1B4004EF127 /* keyboard */,
-				96880791162B88AC00309623 /* filesystem */,
-				96880794162B88AC00309623 /* graphics */,
 				96880795162B88AC00309623 /* timer */,
 			);
 			name = "Module wrappers";
@@ -489,7 +507,9 @@
 		96880794162B88AC00309623 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				967D7076167B2057004EF127 /* wrapGraphics_Font.cpp */,
 				9688079F162B88ED00309623 /* wrapGraphics.cpp */,
+				967D70711679CB55004EF127 /* wrapGraphics_Canvas.cpp */,
 				967D705816788194004EF127 /* wrapGraphics_Image.cpp */,
 				967D705B1678850C004EF127 /* wrapGraphics_Quad.cpp */,
 			);
@@ -795,6 +815,10 @@
 				967D705F1679C1DC004EF127 /* wrapKeyboard.cpp in Sources */,
 				967D706D1679C503004EF127 /* Keyboard.cpp in Sources */,
 				967D706F1679C503004EF127 /* Keyboard.cpp in Sources */,
+				967D70721679CB55004EF127 /* wrapGraphics_Canvas.cpp in Sources */,
+				967D7075167B1D95004EF127 /* wrapFont.cpp in Sources */,
+				967D7077167B2057004EF127 /* wrapGraphics_Font.cpp in Sources */,
+				967D7079167B2821004EF127 /* wrapFont_Rasterizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
